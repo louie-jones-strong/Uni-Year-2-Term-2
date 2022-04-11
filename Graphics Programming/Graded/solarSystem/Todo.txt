@@ -34,7 +34,8 @@ Step 6: Extend the sketch by adding one more celestial body by implementing one 
 Step 7: Submit the file to the 'Staff Graded Assignment: Mid-term assignment submissions' located in the end of week 10.
 
 Ideas for further development:
-  What if the moon had an asteroid that was stuck in orbit around the moon? Can you add a smaller celestial body that is rotating around the moon.
+  What if the moon had an asteroid that was stuck in orbit around the moon?
+  Can you add a smaller celestial body that is rotating around the moon.
 
 Pretend that earth, like Mars, has two moons. Can you add another different sized moon that rotates around the earth at a different speed with a different distance from the earth? This moon should also only show the one side to the earth.
 
