@@ -46,13 +46,17 @@ If they have, then call the destroy() function of the asteroid object, passing i
 Step 11: Implement two of the ideas for further development below. Points given to ambitious learners.
 
 Ideas for further development:
-Make the spaceship pretty by adding jets thrusters which activate from the opposite side of movement just like on a real spaceship.
-
 Keep score of how many asteroids you have hit.
+
+Make the spaceship pretty by adding jets thrusters which activate from the opposite side of movement just like on a real spaceship.
 
 Make the program get progressively harder by spawning asteroids more frequently as time goes by.
 
 Make it your own by customising the look of the game (make sure you maintain same functionality or you might lose points during grading).
+
+
+
+
 
 Marking rubric
 Step 1 - [1 point]: edges() function is correct.

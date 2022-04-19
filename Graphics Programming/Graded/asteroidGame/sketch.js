@@ -5,12 +5,19 @@ var atmosphereSize;
 var earthLoc;
 var earthSize;
 var starLocs = [];
+var timeAliveMs;
+var asteroidsDestroyed;
 
 //////////////////////////////////////////////////
 function setup() {
 	createCanvas(1200,800);
 	spaceship = new Spaceship();
 	asteroids = new AsteroidSystem();
+
+	timeAliveMs = 0;
+	asteroidsDestroyed = 0;
+
+
 
 	//location and size of earth and its atmosphere
 	atmosphereLoc = new createVector(width/2, height*2.9);
@@ -21,6 +28,7 @@ function setup() {
 
 //////////////////////////////////////////////////
 function draw() {
+	timeAliveMs += deltaTime;
 	background(0);
 	sky();
 
@@ -28,6 +36,8 @@ function draw() {
 	asteroids.run();
 
 	drawEarth();
+
+	drawHud();
 
 	checkCollisions(spaceship, asteroids); // function that checks collision between various elements
 }
@@ -42,6 +52,23 @@ function drawEarth(){
 	//draw earth
 	fill(100,255);
 	ellipse(earthLoc.x, earthLoc.y, earthSize.x, earthSize.y);
+}
+
+// draws the heads up display
+function drawHud() {
+	noStroke();
+	fill(255);
+	textSize(32);
+
+	let timeAliveSec = timeAliveMs / 1000;
+	timeAliveSec = Math.round(timeAliveSec * 10) / 10;
+
+	textAlign(LEFT, TOP);
+	text(`Time: ${timeAliveSec}s`, 10, 10);
+
+	textAlign(RIGHT, TOP);
+	text(`Asteroids Destroyed: ${asteroidsDestroyed}`, width - 10, 10);
+
 }
 
 //////////////////////////////////////////////////
@@ -67,6 +94,7 @@ function checkCollisions(spaceship, asteroids){
 			for (let bulletIndex = 0; bulletIndex < bullets.length; bulletIndex++) {
 				if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam)){
 					asteroids.destroy(asteroidIndex);
+					asteroidsDestroyed += 1;
 				}
 
 			}
