@@ -6,6 +6,7 @@ class AsteroidSystem {
 		this.velocities = [];
 		this.accelerations = [];
 		this.diams = [];
+		this.Image = loadImage('assets/meteor.png');
 	}
 
 	run(){
@@ -49,8 +50,13 @@ class AsteroidSystem {
 	draw(){
 		noStroke();
 		fill(200);
+
 		for (var i=0; i<this.locations.length; i++){
-			ellipse(this.locations[i].x, this.locations[i].y, this.diams[i], this.diams[i]);
+			let size = this.diams[i];
+			let x = this.locations[i].x - size / 2;
+			let y = this.locations[i].y - size / 2;
+
+			image(this.Image, x, y, size, size);
 		}
 	}
 

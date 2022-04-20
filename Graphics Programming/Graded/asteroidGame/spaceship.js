@@ -7,21 +7,58 @@ class Spaceship {
 		this.maxVelocity = 5;
 		this.bulletSys = new BulletSystem();
 		this.size = 50;
+		this.thrusterSize = 20;
+
+		this.ShipImage = loadImage('assets/ship.png');
+		this.ThrusterImage = loadImage('assets/thruster.png');
 	}
 
 	run(){
 		this.bulletSys.run();
-		this.draw();
 		this.move();
-		this.edges();
 		this.interaction();
+		this.draw();
+		this.edges();
 	}
 
 	draw(){
-		fill(125);
-		triangle(this.location.x - this.size/2, this.location.y + this.size/2,
-				this.location.x + this.size/2, this.location.y + this.size/2,
-				this.location.x, this.location.y - this.size/2);
+		let x = this.location.x - this.size / 2;
+		let y = this.location.y - this.size / 2;
+		image(this.ShipImage, x, y, this.size, this.size);
+
+		x = this.location.x - this.thrusterSize / 2;
+		y = this.location.y + this.size / 2;
+
+		push();
+		if (this.acceleration.y < 0){
+			image(this.ThrusterImage, x, y, this.thrusterSize, this.thrusterSize);
+		}
+		else if (this.acceleration.y > 0){
+
+			translate(this.location.x, this.location.y);
+			rotate(PI);
+			translate(-this.location.x, -this.location.y);
+
+			image(this.ThrusterImage, x, y, this.thrusterSize, this.thrusterSize);
+		}
+		pop();
+
+		push();
+		if (this.acceleration.x > 0){
+			translate(this.location.x, this.location.y);
+			rotate(1);
+			translate(-this.location.x, -this.location.y);
+
+			image(this.ThrusterImage, x, y, this.thrusterSize, this.thrusterSize);
+		}
+		else if (this.acceleration.x < 0){
+			translate(this.location.x, this.location.y);
+			rotate(-1);
+			translate(-this.location.x, -this.location.y);
+
+			image(this.ThrusterImage, x, y, this.thrusterSize, this.thrusterSize);
+		}
+		pop();
 	}
 
 	move(){
@@ -51,7 +88,8 @@ class Spaceship {
 	}
 
 	fire(){
-		this.bulletSys.fire(this.location.x, this.location.y);
+
+		this.bulletSys.fire(this.location.x, this.location.y - this.size);
 	}
 
 	edges(){

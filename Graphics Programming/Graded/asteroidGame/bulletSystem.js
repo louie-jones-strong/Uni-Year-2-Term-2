@@ -4,6 +4,7 @@ class BulletSystem {
     this.bullets = [];
     this.velocity = new createVector(0, -5);
     this.diam = 10;
+    this.Image = loadImage('assets/bullet.png');
   }
 
   run(){
@@ -20,7 +21,10 @@ class BulletSystem {
   draw(){
     fill(255);
     for (var i=0; i<this.bullets.length; i++){
-      ellipse(this.bullets[i].x, this.bullets[i].y, this.diam, this.diam);
+
+      let x = this.bullets[i].x - this.diam / 2;
+      let y = this.bullets[i].y - this.diam / 2;
+      image(this.Image, x, y, this.size, this.size);
     }
   }
 
