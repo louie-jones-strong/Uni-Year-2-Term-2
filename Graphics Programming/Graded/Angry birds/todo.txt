@@ -47,10 +47,12 @@ Step 8: Implement one of the ideas for further development.
 
 
 Ideas for further development
+Make it your own by changing the colors and style.
+
 Turn it into a game. Create a countdown. The player has a 60 seconds to remove all boxes from the screen.
 If they succeed, they win. If they fail, looping stops and a GAME OVER message is displayed.
 
-Make it your own by changing the colors and style.
+
 
 Add another physics object that adds to the gameplay in a fun way.
 

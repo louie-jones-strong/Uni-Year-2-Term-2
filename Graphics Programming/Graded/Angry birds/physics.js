@@ -93,6 +93,7 @@ function drawTower(){
 			removeFromWorld(box);
 			boxes.splice(index, 1);
 			boxImgIndex.splice(index, 1);
+			score += 1;
 		}
 		else
 		{

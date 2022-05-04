@@ -109,9 +109,6 @@ function checkCollisions(spaceship, asteroids){
 		if (isInside(spaceship.location, spaceship.size, atmosphereLoc, atmosphereSize.x)){
 			spaceship.setNearEarth();
 		}
-
-		//bullet collisions
-		//YOUR CODE HERE (3-4 lines approx)
 }
 
 //////////////////////////////////////////////////

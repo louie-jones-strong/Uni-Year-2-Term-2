@@ -23,6 +23,8 @@ var slingshotBird, slingshotConstraint;
 var angle=0;
 var angleSpeed=0;
 var canvas;
+var timeLeftMs = 60 * 1000;
+var score = 0;
 ////////////////////////////////////////////////////////////
 function setup() {
 	canvas = createCanvas(1000, 600);
@@ -48,6 +50,9 @@ function setup() {
 }
 ////////////////////////////////////////////////////////////
 function draw() {
+
+	timeLeftMs -= deltaTime;
+
 	background(0);
 
 	Engine.update(engine);
@@ -61,7 +66,55 @@ function draw() {
 	drawBirds();
 
 	drawSlingshot();
+
+	drawHud();
+
+	if (boxes.length <= 0)
+	{
+		gameWin()
+	}
+	else if (timeLeftMs <= 0)
+	{
+		gameOver();
+	}
 }
+
+function drawHud() {
+	noStroke();
+	fill(255);
+	textSize(32);
+
+	let timeLeftSec = timeLeftMs / 1000;
+	timeLeftSec = Math.round(timeLeftSec * 10) / 10;
+
+	textAlign(LEFT, TOP);
+	text(`Time Left: ${timeLeftSec}s`, 10, 10);
+
+	textAlign(RIGHT, TOP);
+	text(`Score: ${score}`, width - 10, 10);
+
+}
+
+//////////////////////////////////////////////////
+// function that ends the game by stopping the loops and displaying "Game Over"
+function gameOver(){
+	fill(255);
+	textSize(80);
+	textAlign(CENTER);
+	text("GAME OVER", width/2, height/2)
+	noLoop();
+}
+
+//////////////////////////////////////////////////
+// function that ends the game by stopping the loops and displaying "Game Over"
+function gameWin(){
+	fill(255);
+	textSize(80);
+	textAlign(CENTER);
+	text("Win", width/2, height/2)
+	noLoop();
+}
+
 ////////////////////////////////////////////////////////////
 //use arrow keys to control propeller
 function keyPressed(){
