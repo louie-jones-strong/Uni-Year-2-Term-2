@@ -11,7 +11,15 @@ var Mouse = Matter.Mouse;
 var MouseConstraint = Matter.MouseConstraint;
 
 var engine;
+
 var propeller;
+var angle=0;
+var angleSpeed=0;
+
+var movingWall;
+var movingWallPosY;
+var movingWallSpeed = 2;
+
 var boxes = [];
 var birds = [];
 var birdsImgIndex = [];
@@ -20,9 +28,8 @@ var birdImages = [];
 var boxImages = [];
 var ground;
 var slingshotBird, slingshotConstraint;
-var angle=0;
-var angleSpeed=0;
 var canvas;
+
 var timeLeftMs = 60 * 1000;
 var score = 0;
 ////////////////////////////////////////////////////////////
@@ -41,6 +48,7 @@ function setup() {
 	setupGround();
 
 	setupPropeller();
+	setupMovingWall();
 
 	setupTower();
 
@@ -60,6 +68,7 @@ function draw() {
 	drawGround();
 
 	drawPropeller();
+	drawMovingWall();
 
 	drawTower();
 

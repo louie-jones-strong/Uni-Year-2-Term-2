@@ -34,6 +34,30 @@ function drawPropeller(){
 	pop();
 }
 ////////////////////////////////////////////////////////////////
+function setupMovingWall(){
+	movingWallPosY = 250;
+	movingWall = Bodies.rectangle(500, movingWallPosY, 15, 300, {
+		isStatic: true
+	});
+	World.add(engine.world, [movingWall]);
+}
+////////////////////////////////////////////////////////////////
+//updates and draws the moving Wall
+function drawMovingWall(){
+	push();
+
+	movingWallPosY += movingWallSpeed;
+	if(movingWallPosY<= 200 || movingWallPosY >= 400) {
+		movingWallSpeed *= -1;
+	}
+
+	Body.setPosition(movingWall, {x:500, y:movingWallPosY});
+	Body.setVelocity(movingWall, {x:0, y:movingWallPosY});
+
+	drawVertices(movingWall.vertices);
+	pop();
+}
+////////////////////////////////////////////////////////////////
 function setupBird(){
 	var bird = Bodies.circle(mouseX, mouseY, 20, {friction: 0,
 			restitution: 0.95 });
