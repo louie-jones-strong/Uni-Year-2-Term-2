@@ -27,13 +27,11 @@ Step 5: In the drawTower() function loop over the boxes array and draw each box 
 Remember to use the random colors you created inside the colors array.
 You should now see a tower of boxes in different shades of green like in the image above.
 
-
-
-
 Creating a slingshot
 Step 6: Amend the setupSlingshot() function to initialise the global variable slingshotBird as a body of type circle in a similar place as shown in the image above.
 Give the circle zero friction and a restitution of 0.95.
-Set the mass of the slingshotBird as ten times its original mass, just like we have done for each of the birds in the setupBird() function.
+Set the mass of the slingshotBird as ten times its original mass,
+just like we have done for each of the birds in the setupBird() function.
 
 Initialise also the global variable slingshotConstraint as a constraint that behaves and looks like the one shown above.
 Give it a stiffness of 0.01 and damping of 0.0001.

@@ -40,6 +40,7 @@ function setupBird(){
 	Matter.Body.setMass(bird, bird.mass*10);
 	World.add(engine.world, [bird]);
 	birds.push(bird);
+	birdsImgIndex.push(Math.round(Math.random() * 3));
 }
 ////////////////////////////////////////////////////////////////
 function drawBirds(){
@@ -53,10 +54,12 @@ function drawBirds(){
 		{
 			removeFromWorld(bird);
 			birds.splice(index, 1);
+			birdsImgIndex.splice(index, 1);
 		}
 		else
 		{
-			drawVertices(bird.vertices);
+			let birdPos = bird.position;
+			image(birdImages[birdsImgIndex[index]], birdPos.x-20, birdPos.y-20, 40, 40);
 			index += 1;
 		}
 	}
@@ -71,7 +74,7 @@ function setupTower(){
 		{
 			let box = Bodies.rectangle(650 + x * 80, 520 - y * 80, 80, 80);
 			boxes.push(box);
-			colors.push([0, 30 + Math.random() * 225, 0]);
+			boxImgIndex.push(Math.round(Math.random() * 3));
 		}
 	}
 	World.add(engine.world, boxes);
@@ -84,19 +87,22 @@ function drawTower(){
 	let index = 0;
 	while (index < boxes.length)
 	{
-		fill(colors[index]);
-
 		const box = boxes[index];
 		if (isOffScreen(box))
 		{
 			removeFromWorld(box);
 			boxes.splice(index, 1);
-			colors.splice(index, 1);
+			boxImgIndex.splice(index, 1);
 		}
 		else
 		{
-			drawVertices(box.vertices);
+			push();
+			let boxPos = box.position;
+			translate(boxPos.x, boxPos.y);
+			rotate(box.angle);
+			image(boxImages[boxImgIndex[index]], -40, -40, 80, 80);
 			index += 1;
+			pop();
 		}
 	}
 	pop();
@@ -121,8 +127,10 @@ function setupSlingshot(){
 //draws slingshot bird and its constraint
 function drawSlingshot(){
 	push();
-	drawVertices(slingshotBird.vertices);
+	let birdPos = slingshotBird.position;
+
 	drawConstraint(slingshotConstraint);
+	image(birdImages[0], birdPos.x-20, birdPos.y-20, 40, 40);
 	pop();
 }
 /////////////////////////////////////////////////////////////////
