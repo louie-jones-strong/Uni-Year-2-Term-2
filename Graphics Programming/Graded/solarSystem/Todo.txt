@@ -39,6 +39,15 @@ Ideas for further development:
 
 Pretend that earth, like Mars, has two moons. Can you add another different sized moon that rotates around the earth at a different speed with a different distance from the earth? This moon should also only show the one side to the earth.
 
+add zooming in and out
+
+add sprites for each planet
+
+remove magic numbers
+
+maybe make it classes based
+
+
 Marking rubric:
 Step 1 - [1 points]: Earth is at the right orbit.
 

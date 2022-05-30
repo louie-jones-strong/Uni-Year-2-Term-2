@@ -51,7 +51,11 @@ Make the program get progressively harder by spawning asteroids more frequently 
 Make it your own by customising the look of the game (make sure you maintain same functionality or you might lose points during grading).
 Make the spaceship pretty by adding jets thrusters which activate from the opposite side of movement just like on a real spaceship.
 
+astroids to explode
+sounds affects
 
+optimize the collided
+add current level text
 
 
 
