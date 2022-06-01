@@ -8,6 +8,12 @@ var starLocs = [];
 var timeAliveMs;
 var asteroidsDestroyed;
 
+function preload()
+{
+	// credit for planet images from https://deep-fold.itch.io/pixel-planet-generator
+	planetImage = loadImage("assets/Planet.png");
+}
+
 //////////////////////////////////////////////////
 function setup() {
 	createCanvas(1200,800);
@@ -51,11 +57,17 @@ function drawEarth(){
 	ellipse(atmosphereLoc.x, atmosphereLoc.y, atmosphereSize.x,  atmosphereSize.y);
 	//draw earth
 	fill(100,255);
-	ellipse(earthLoc.x, earthLoc.y, earthSize.x, earthSize.y);
+
+	push();
+	translate(earthLoc.x, earthLoc.y);
+	rotate(radians(-frameCount / 100));
+	image(planetImage, -earthSize.x / 2, -earthSize.y / 2, earthSize.x, earthSize.y)
+	pop();
 }
 
 // draws the heads up display
-function drawHud() {
+function drawHud()
+{
 	noStroke();
 	fill(255);
 	textSize(32);
@@ -73,42 +85,50 @@ function drawHud() {
 
 //////////////////////////////////////////////////
 //checks collisions between all types of bodies
-function checkCollisions(spaceship, asteroids){
+function checkCollisions(spaceship, asteroids)
+{
 
-		for (let asteroidIndex = 0; asteroidIndex < asteroids.locations.length; asteroidIndex++) {
-			let asteroidLocation = asteroids.locations[asteroidIndex];
-			let asteroidSize = asteroids.diams[asteroidIndex];
+	for (let asteroidIndex = 0; asteroidIndex < asteroids.locations.length; asteroidIndex++)
+	{
+		let asteroidLocation = asteroids.locations[asteroidIndex];
+		let asteroidSize = asteroids.diams[asteroidIndex];
 
-			//spaceship-2-asteroid collisions
-			if (isInside(asteroidLocation, asteroidSize, spaceship.location, spaceship.size)){
-				gameOver();
-			}
-
-			//asteroid-2-earth collisions
-			if (isInside(asteroidLocation, asteroidSize, earthLoc, earthSize.x)){
-				gameOver();
-			}
-
-			//bullet collisions
-			let bullets = spaceship.bulletSys.bullets
-			for (let bulletIndex = 0; bulletIndex < bullets.length; bulletIndex++) {
-				if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam)){
-					asteroids.destroy(asteroidIndex);
-					asteroidsDestroyed += 1;
-				}
-
-			}
-		}
-
-		//spaceship-2-earth
-		if (isInside(spaceship.location, spaceship.size, earthLoc, earthSize.x)){
+		//spaceship-2-asteroid collisions
+		if (isInside(asteroidLocation, asteroidSize, spaceship.location, spaceship.size))
+		{
 			gameOver();
 		}
 
-		//spaceship-2-atmosphere
-		if (isInside(spaceship.location, spaceship.size, atmosphereLoc, atmosphereSize.x)){
-			spaceship.setNearEarth();
+		//asteroid-2-earth collisions
+		if (isInside(asteroidLocation, asteroidSize, earthLoc, earthSize.x))
+		{
+			gameOver();
 		}
+
+		//bullet collisions
+		let bullets = spaceship.bulletSys.bullets
+		for (let bulletIndex = 0; bulletIndex < bullets.length; bulletIndex++)
+		{
+			if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam))
+			{
+				asteroids.destroy(asteroidIndex);
+				asteroidsDestroyed += 1;
+			}
+
+		}
+	}
+
+	//spaceship-2-earth
+	if (isInside(spaceship.location, spaceship.size, earthLoc, earthSize.x))
+	{
+		gameOver();
+	}
+
+	//spaceship-2-atmosphere
+	if (isInside(spaceship.location, spaceship.size, atmosphereLoc, atmosphereSize.x))
+	{
+		spaceship.setNearEarth();
+	}
 }
 
 //////////////////////////////////////////////////
