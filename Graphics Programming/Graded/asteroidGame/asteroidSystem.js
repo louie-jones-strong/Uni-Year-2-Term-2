@@ -1,30 +1,35 @@
-class AsteroidSystem {
+class AsteroidSystem
+{
 
 	//creates arrays to store each asteroid's data
-	constructor(){
+	constructor()
+	{
 		this.locations = [];
 		this.velocities = [];
 		this.accelerations = [];
 		this.diams = [];
-		this.Image = loadImage('Assets/Images/meteor.png');
+		this.Image = loadImage("Assets/Images/meteor.png");
 		this.ExplosionSfx = loadSound("Assets/Audio/explosion.wav");
 	}
 
-	run(){
+	run()
+	{
 			this.spawn();
 			this.move();
 			this.draw();
 	}
 
 	// spawns asteroid at random intervals
-	spawn(){
+	spawn()
+	{
 
 		var spawnChance = 0.01;
 
 		spawnChance += 0.001 * difficultyLevel;
 
 
-		if (random(1) < spawnChance){
+		if (random(1) < spawnChance)
+		{
 			this.accelerations.push(new createVector(0,random(0.1,1)));
 			this.velocities.push(new createVector(0, 0));
 			this.locations.push(new createVector(random(width), 0));
@@ -33,26 +38,32 @@ class AsteroidSystem {
 	}
 
 	//moves all asteroids
-	move(){
-		for (var i=0; i<this.locations.length; i++){
+	move()
+	{
+		for (var i=0; i<this.locations.length; i++)
+		{
 			this.velocities[i].add(this.accelerations[i]);
 			this.locations[i].add(this.velocities[i]);
 			this.accelerations[i].mult(0);
 		}
 	}
 
-	applyForce(f){
-		for (var i=0; i<this.locations.length; i++){
+	applyForce(f)
+	{
+		for (var i=0; i<this.locations.length; i++)
+		{
 			this.accelerations[i].add(f);
 		}
 	}
 
 	//draws all asteroids
-	draw(){
+	draw()
+	{
 		noStroke();
 		fill(200);
 
-		for (var i=0; i<this.locations.length; i++){
+		for (var i=0; i<this.locations.length; i++)
+		{
 			let size = this.diams[i];
 			let x = this.locations[i].x - size / 2;
 			let y = this.locations[i].y - size / 2;
@@ -62,8 +73,10 @@ class AsteroidSystem {
 	}
 
 	//function that calculates effect of gravity on each asteroid and accelerates it
-	calcGravity(centerOfMass){
-		for (var i=0; i<this.locations.length; i++){
+	calcGravity(centerOfMass)
+	{
+		for (var i=0; i<this.locations.length; i++)
+		{
 			var gravity = p5.Vector.sub(centerOfMass, this.locations[i]);
 			gravity.normalize();
 			gravity.mult(.001);
@@ -72,7 +85,8 @@ class AsteroidSystem {
 	}
 
 	//destroys all data associated with each asteroid
-	destroy(index){
+	destroy(index)
+	{
 		this.locations.splice(index,1);
 		this.velocities.splice(index,1);
 		this.accelerations.splice(index,1);

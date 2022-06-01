@@ -13,7 +13,7 @@ var gameOverSfx;
 
 function preload()
 {
-	soundFormats('ogg', 'wav');
+	soundFormats("ogg", "wav");
 	// credit for planet images from https://deep-fold.itch.io/pixel-planet-generator
 	planetImage = loadImage("Assets/Images/Planet.png");
 
@@ -21,7 +21,8 @@ function preload()
 }
 
 //////////////////////////////////////////////////
-function setup() {
+function setup()
+{
 	createCanvas(1200,800);
 	spaceship = new Spaceship();
 	asteroids = new AsteroidSystem();
@@ -39,7 +40,8 @@ function setup() {
 }
 
 //////////////////////////////////////////////////
-function draw() {
+function draw()
+{
 	timeAliveMs += deltaTime;
 
 	// every 5 seconds the level increases
@@ -60,7 +62,8 @@ function draw() {
 
 //////////////////////////////////////////////////
 //draws earth and atmosphere
-function drawEarth(){
+function drawEarth()
+{
 	noStroke();
 	//draw atmosphere
 	fill(0,0,255, 50);
@@ -146,21 +149,25 @@ function checkCollisions(spaceship, asteroids)
 
 //////////////////////////////////////////////////
 //helper function checking if there's collision between object A and object B
-function isInside(locA, sizeA, locB, sizeB){
+function isInside(locA, sizeA, locB, sizeB)
+{
 	let distance = locA.dist(locB);
 	return distance <= sizeA/2 + sizeB/2;
 }
 
 //////////////////////////////////////////////////
-function keyPressed(){
-	if (keyIsPressed && keyCode === 32){ // if spacebar is pressed, fire!
+function keyPressed()
+{
+	if (keyIsPressed && keyCode === 32)
+	{ // if spacebar is pressed, fire!
 		spaceship.fire();
 	}
 }
 
 //////////////////////////////////////////////////
 // function that ends the game by stopping the loops and displaying "Game Over"
-function gameOver(){
+function gameOver()
+{
 	fill(255);
 	textSize(80);
 	textAlign(CENTER);
@@ -171,13 +178,16 @@ function gameOver(){
 
 //////////////////////////////////////////////////
 // function that creates a star lit sky
-function sky(){
+function sky()
+{
 	push();
-	while (starLocs.length<300){
+	while (starLocs.length<300)
+	{
 		starLocs.push(new createVector(random(width), random(height)));
 	}
 	fill(255);
-	for (var i=0; i<starLocs.length; i++){
+	for (var i=0; i<starLocs.length; i++)
+	{
 		rect(starLocs[i].x, starLocs[i].y,2,2);
 	}
 

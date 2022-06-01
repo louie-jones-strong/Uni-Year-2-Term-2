@@ -1,6 +1,8 @@
-class BulletSystem {
+class BulletSystem
+{
 
-	constructor(){
+	constructor()
+	{
 		this.bullets = [];
 		this.velocity = new createVector(0, -5);
 		this.diam = 10;
@@ -11,13 +13,15 @@ class BulletSystem {
 		this.ShotSounds.push(loadSound("Assets/Audio/laser2.ogg"));
 	}
 
-	run(){
+	run()
+	{
 			this.move();
 			this.draw();
 			this.edges();
 	}
 
-	fire(x, y){
+	fire(x, y)
+	{
 		this.bullets.push(createVector(x,y));
 
 		let shotIndex = int(Math.random() * this.ShotSounds.length);
@@ -25,9 +29,11 @@ class BulletSystem {
 	}
 
 	//draws all bullets
-	draw(){
+	draw()
+	{
 		fill(255);
-		for (var i=0; i<this.bullets.length; i++){
+		for (var i=0; i<this.bullets.length; i++)
+		{
 
 			let x = this.bullets[i].x - this.diam / 2;
 			let y = this.bullets[i].y - this.diam / 2;
@@ -36,15 +42,19 @@ class BulletSystem {
 	}
 
 	//updates the location of all bullets
-	move(){
-		for (var i=0; i<this.bullets.length; i++){
+	move()
+	{
+		for (var i=0; i<this.bullets.length; i++)
+		{
 			this.bullets[i].y += this.velocity.y;
 		}
 	}
 
 	//check if bullets leave the screen and remove them from the array
-	edges(){
-		for (var i=0; i<this.bullets.length; i++){
+	edges()
+	{
+		for (var i=0; i<this.bullets.length; i++)
+		{
 			if (this.bullets[i].y >= height)
 			splice(i, 1)
 		}
