@@ -9,10 +9,15 @@ var timeAliveMs;
 var difficultyLevel;
 var asteroidsDestroyed;
 
+var gameOverSfx;
+
 function preload()
 {
+	soundFormats('ogg');
 	// credit for planet images from https://deep-fold.itch.io/pixel-planet-generator
-	planetImage = loadImage("assets/Planet.png");
+	planetImage = loadImage("Assets/Images/Planet.png");
+
+	gameOverSfx = loadSound("Assets/Audio/lose");
 }
 
 //////////////////////////////////////////////////
@@ -160,6 +165,7 @@ function gameOver(){
 	textSize(80);
 	textAlign(CENTER);
 	text("GAME OVER", width/2, height/2)
+	gameOverSfx.play();
 	noLoop();
 }
 

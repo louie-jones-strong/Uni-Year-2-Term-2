@@ -6,7 +6,7 @@ class AsteroidSystem {
 		this.velocities = [];
 		this.accelerations = [];
 		this.diams = [];
-		this.Image = loadImage('assets/meteor.png');
+		this.Image = loadImage('Assets/Images/meteor.png');
 	}
 
 	run(){

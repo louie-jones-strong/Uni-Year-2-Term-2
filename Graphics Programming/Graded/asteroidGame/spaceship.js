@@ -9,8 +9,8 @@ class Spaceship {
 		this.size = 50;
 		this.thrusterSize = 20;
 
-		this.ShipImage = loadImage('assets/ship.png');
-		this.ThrusterImage = loadImage('assets/thruster.png');
+		this.ShipImage = loadImage('Assets/Images/ship.png');
+		this.ThrusterImage = loadImage('Assets/Images/thruster.png');
 	}
 
 	run(){

@@ -1,45 +1,52 @@
 class BulletSystem {
 
-  constructor(){
-    this.bullets = [];
-    this.velocity = new createVector(0, -5);
-    this.diam = 10;
-    this.Image = loadImage('assets/bullet.png');
-  }
+	constructor(){
+		this.bullets = [];
+		this.velocity = new createVector(0, -5);
+		this.diam = 10;
+		this.Image = loadImage("Assets/Images/bullet.png");
 
-  run(){
-      this.move();
-      this.draw();
-      this.edges();
-  }
+		this.ShotSounds = [];
+		this.ShotSounds.push(loadSound("Assets/Audio/laser1"));
+		this.ShotSounds.push(loadSound("Assets/Audio/laser2"));
+	}
 
-  fire(x, y){
-    this.bullets.push(createVector(x,y));
-  }
+	run(){
+			this.move();
+			this.draw();
+			this.edges();
+	}
 
-  //draws all bullets
-  draw(){
-    fill(255);
-    for (var i=0; i<this.bullets.length; i++){
+	fire(x, y){
+		this.bullets.push(createVector(x,y));
 
-      let x = this.bullets[i].x - this.diam / 2;
-      let y = this.bullets[i].y - this.diam / 2;
-      image(this.Image, x, y, this.size, this.size);
-    }
-  }
+		let shotIndex = int(Math.random() * this.ShotSounds.length);
+		this.ShotSounds[shotIndex].play();
+	}
 
-  //updates the location of all bullets
-  move(){
-    for (var i=0; i<this.bullets.length; i++){
-      this.bullets[i].y += this.velocity.y;
-    }
-  }
+	//draws all bullets
+	draw(){
+		fill(255);
+		for (var i=0; i<this.bullets.length; i++){
 
-  //check if bullets leave the screen and remove them from the array
-  edges(){
-    for (var i=0; i<this.bullets.length; i++){
-      if (this.bullets[i].y >= height)
-      splice(i, 1)
-    }
-  }
+			let x = this.bullets[i].x - this.diam / 2;
+			let y = this.bullets[i].y - this.diam / 2;
+			image(this.Image, x, y, this.size, this.size);
+		}
+	}
+
+	//updates the location of all bullets
+	move(){
+		for (var i=0; i<this.bullets.length; i++){
+			this.bullets[i].y += this.velocity.y;
+		}
+	}
+
+	//check if bullets leave the screen and remove them from the array
+	edges(){
+		for (var i=0; i<this.bullets.length; i++){
+			if (this.bullets[i].y >= height)
+			splice(i, 1)
+		}
+	}
 }
