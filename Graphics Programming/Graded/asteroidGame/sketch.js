@@ -6,6 +6,7 @@ var earthLoc;
 var earthSize;
 var starLocs = [];
 var timeAliveMs;
+var difficultyLevel;
 var asteroidsDestroyed;
 
 function preload()
@@ -35,6 +36,10 @@ function setup() {
 //////////////////////////////////////////////////
 function draw() {
 	timeAliveMs += deltaTime;
+
+	// every 5 seconds the level increases
+	difficultyLevel = 1 + int(timeAliveMs / 5000);
+
 	background(0);
 	sky();
 
@@ -77,6 +82,9 @@ function drawHud()
 
 	textAlign(LEFT, TOP);
 	text(`Time: ${timeAliveSec}s`, 10, 10);
+
+	textAlign(LEFT, TOP);
+	text(`Level: ${difficultyLevel}`, width / 2 - 75, 10);
 
 	textAlign(RIGHT, TOP);
 	text(`Asteroids Destroyed: ${asteroidsDestroyed}`, width - 10, 10);

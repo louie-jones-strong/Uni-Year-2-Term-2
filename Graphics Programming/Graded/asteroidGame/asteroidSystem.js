@@ -20,7 +20,7 @@ class AsteroidSystem {
 
 		var spawnChance = 0.01;
 
-		spawnChance += 0.001 * (timeAliveMs / 1000);
+		spawnChance += 0.001 * difficultyLevel;
 
 
 		if (random(1) < spawnChance){
