@@ -45,16 +45,28 @@ class CelestialBody
 		fill(this.Color);
 		stroke(0);
 
-		ellipse(0, 0, this.BodyRadius, this.BodyRadius);
+		if (IsSimpleView)
+		{
+			ellipse(0, 0, this.BodyRadius, this.BodyRadius);
+		}
+		else
+		{
+			this.Sprite.Draw(0, 0, this.BodyRadius, this.BodyRadius, true)
+		}
 
-		this.Sprite.Draw(0, 0, this.BodyRadius, this.BodyRadius, true)
-		line(0, 0, this.BodyRadius/2, 0);
+		if (ShowLines)
+		{
+			line(0, 0, this.BodyRadius/2, 0);
+		}
 
-		push();
-		fill(color(255,255,255));
-		noStroke(51);
-		text(this.Name, this.BodyRadius/2, 0);
-		pop();
+		if (ShowNames)
+		{
+			push();
+			fill(color(255,255,255));
+			noStroke(51);
+			text(this.Name, this.BodyRadius/2, 0);
+			pop();
+		}
 	}
 
 }

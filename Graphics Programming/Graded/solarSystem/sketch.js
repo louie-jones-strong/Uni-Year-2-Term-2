@@ -1,7 +1,11 @@
-var Time;
+var Time = 0;
+var TargetFps = 60;
 
 var Background;
 var SystemCenterBody;
+var ShowNames = true;
+var ShowLines = true;
+var IsSimpleView = false;
 
 function preload()
 {
@@ -43,18 +47,37 @@ function preload()
 
 function setup()
 {
-	createCanvas(900, 700);
+	let canvas = createCanvas(900, 700);
+	canvas.id('canvas');
+	canvas.parent("content");
 
 }
 
 function draw()
 {
-	background(0);
-	image(Background, 0, 0)
-	Time = frameCount;
+	if (IsSimpleView)
+	{
+		background(0);
+	}
+	else
+	{
+		image(Background, 0, 0)
+	}
+
+	deltaTimeSeconds = deltaTime / 1000;
+	Time += deltaTimeSeconds * TargetFps * document.getElementById("speedSlider").value;
+
 
 	// center system in middle of the canvas
 	translate(width/2, height/2);
 
+	let zoom = document.getElementById("zoomSlider").value;
+	scale(zoom);
+
 	SystemCenterBody.DrawBodyAndSatellites();
 }
+
+
+document.getElementById("toggleNames").onclick = function(){ShowNames = !ShowNames;};
+document.getElementById("toggleLines").onclick = function(){ShowLines = !ShowLines;};
+document.getElementById("toggleSimpleView").onclick = function(){IsSimpleView = !IsSimpleView;};
