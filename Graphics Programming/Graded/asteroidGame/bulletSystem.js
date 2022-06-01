@@ -7,8 +7,8 @@ class BulletSystem {
 		this.Image = loadImage("Assets/Images/bullet.png");
 
 		this.ShotSounds = [];
-		this.ShotSounds.push(loadSound("Assets/Audio/laser1"));
-		this.ShotSounds.push(loadSound("Assets/Audio/laser2"));
+		this.ShotSounds.push(loadSound("Assets/Audio/laser1.ogg"));
+		this.ShotSounds.push(loadSound("Assets/Audio/laser2.ogg"));
 	}
 
 	run(){

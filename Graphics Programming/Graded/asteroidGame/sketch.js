@@ -13,7 +13,7 @@ var gameOverSfx;
 
 function preload()
 {
-	soundFormats('ogg');
+	soundFormats('ogg', 'wav');
 	// credit for planet images from https://deep-fold.itch.io/pixel-planet-generator
 	planetImage = loadImage("Assets/Images/Planet.png");
 

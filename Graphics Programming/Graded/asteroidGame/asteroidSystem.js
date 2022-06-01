@@ -7,6 +7,7 @@ class AsteroidSystem {
 		this.accelerations = [];
 		this.diams = [];
 		this.Image = loadImage('Assets/Images/meteor.png');
+		this.ExplosionSfx = loadSound("Assets/Audio/explosion.wav");
 	}
 
 	run(){
@@ -76,5 +77,6 @@ class AsteroidSystem {
 		this.velocities.splice(index,1);
 		this.accelerations.splice(index,1);
 		this.diams.splice(index,1);
+		this.ExplosionSfx.play();
 	}
 }
