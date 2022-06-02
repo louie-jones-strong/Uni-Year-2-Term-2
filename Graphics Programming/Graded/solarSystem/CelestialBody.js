@@ -22,6 +22,13 @@ class CelestialBody
 
 	DrawBodyAndSatellites()
 	{
+		if (ShowOrbits)
+		{
+			stroke(color(255,255,255));
+			noFill();
+			ellipse(0, 0, this.OrbitRadius*2, this.OrbitRadius*2);
+		}
+
 		push();
 
 		rotate(radians(Time * this.RotationSpeed));

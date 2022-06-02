@@ -6,6 +6,7 @@ var SystemCenterBody;
 var ShowNames = true;
 var ShowLines = true;
 var IsSimpleView = false;
+var ShowOrbits = true;
 
 function preload()
 {
@@ -30,11 +31,11 @@ function preload()
 
 	let venusSprite = new AnimatedSprite("Assets/Venus.png", xSpriteCount, ySpriteCount, timePerFrame, 1);
 	let venus = new CelestialBody(venusSprite, color(255,50,50), 40, "Venus",
-		1.25, 250, 1);
+		1.25, 200, 1);
 	SystemCenterBody.AddSatellite(venus);
 
 	let earthSprite = new AnimatedSprite("Assets/Earth.png", xSpriteCount, ySpriteCount, timePerFrame, 1);
-	let earth = new CelestialBody(earthSprite, color(0,0,255), 80, "Earth",
+	let earth = new CelestialBody(earthSprite, color(0,100,255), 80, "Earth",
 		1, 300, 1);
 	SystemCenterBody.AddSatellite(earth);
 
@@ -49,28 +50,33 @@ function preload()
 	earth.AddSatellite(moon2);
 
 	let astroidSprite = new AnimatedSprite("Assets/Astroid.png", 1, 1, timePerFrame, 1);
-	let astroid = new CelestialBody(astroidSprite, color(100,100,100), 30, "Astroid",
-		1, 50, 1);
+	let astroid = new CelestialBody(astroidSprite, color(100,100,100), 20, "Astroid",
+		1, 30, 1);
 	moon1.AddSatellite(astroid);
 
+	let marsSprite = new AnimatedSprite("Assets/Mars.png", xSpriteCount, ySpriteCount, timePerFrame, 1);
+	let mars = new CelestialBody(marsSprite, color(255,0,0), 60, "Mars",
+		0.85, 500, 1);
+	SystemCenterBody.AddSatellite(mars);
+
 	let jupiterSprite = new AnimatedSprite("Assets/Jupiter.png", xSpriteCount, ySpriteCount, timePerFrame, 1);
-	let jupiter = new CelestialBody(jupiterSprite, color(0,0,255), 100, "Jupiter",
-		0.8, 500, 1);
+	let jupiter = new CelestialBody(jupiterSprite, color(255,100,0), 100, "Jupiter",
+		0.7, 650, 1);
 	SystemCenterBody.AddSatellite(jupiter);
 
 	let saturnSprite = new AnimatedSprite("Assets/Saturn.png", xSpriteCount, ySpriteCount, timePerFrame, 2);
-	let saturn = new CelestialBody(saturnSprite, color(255,0,0), 100, "Saturn",
-		0.65, 700, 1);
+	let saturn = new CelestialBody(saturnSprite, color(255,255,0), 100, "Saturn",
+		0.6, 800, 1);
 	SystemCenterBody.AddSatellite(saturn);
 
 	let uranusSprite = new AnimatedSprite("Assets/Uranus.png", xSpriteCount, ySpriteCount, timePerFrame, 2);
-	let uranus = new CelestialBody(uranusSprite, color(0,0,255), 70, "Uranus",
-		0.5, 850, 1);
+	let uranus = new CelestialBody(uranusSprite, color(50,50,255), 70, "Uranus",
+		0.4, 950, 1);
 	SystemCenterBody.AddSatellite(uranus);
 
 	let neptuneSprite = new AnimatedSprite("Assets/Neptune.png", xSpriteCount, ySpriteCount, timePerFrame, 1);
-	let neptune = new CelestialBody(neptuneSprite, color(0,0,255), 50, "Neptune",
-		0.35, 950, 1);
+	let neptune = new CelestialBody(neptuneSprite, color(200,200,255), 50, "Neptune",
+		0.3, 1050, 1);
 	SystemCenterBody.AddSatellite(neptune);
 
 }
@@ -111,3 +117,5 @@ function draw()
 document.getElementById("toggleNames").onclick = function(){ShowNames = !ShowNames;};
 document.getElementById("toggleLines").onclick = function(){ShowLines = !ShowLines;};
 document.getElementById("toggleSimpleView").onclick = function(){IsSimpleView = !IsSimpleView;};
+document.getElementById("toggleShowOrbits").onclick = function(){ShowOrbits = !ShowOrbits;};
+
