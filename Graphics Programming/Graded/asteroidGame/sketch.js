@@ -1,18 +1,18 @@
-var spaceship;
-var asteroidSystem;
-var atmosphereLoc;
-var atmosphereSize;
-var earthLoc;
-var earthSize;
-var starLocs = [];
-var timeAliveMs;
-var difficultyLevel;
-var asteroidsDestroyedCount;
+var Ship;
+var AsteroidsSystem;
+var AtmosphereLoc;
+var AtmosphereSize;
+var EarthLoc;
+var EarthSize;
+var StarLocs = [];
+var TimeAliveMs;
+var DifficultyLevel;
+var AsteroidsDestroyedCount;
 
 var AsteroidImage;
 var AsteroidDestroySfx;
 
-var gameOverSfx;
+var GameOverSfx;
 
 function preload()
 {
@@ -23,7 +23,7 @@ function preload()
 
 	// load sounds
 	soundFormats("ogg", "wav");
-	gameOverSfx = loadSound("Assets/Audio/lose");
+	GameOverSfx = loadSound("Assets/Audio/lose");
 	AsteroidDestroySfx = loadSound("Assets/Audio/explosion.wav");
 }
 
@@ -31,34 +31,34 @@ function preload()
 function setup()
 {
 	createCanvas(1200,800);
-	spaceship = new Spaceship();
-	asteroidSystem = new AsteroidSystem();
+	Ship = new Spaceship();
+	AsteroidsSystem = new AsteroidSystem();
 
-	timeAliveMs = 0;
-	asteroidsDestroyedCount = 0;
+	TimeAliveMs = 0;
+	AsteroidsDestroyedCount = 0;
 
 
 
 	//location and size of earth and its atmosphere
-	atmosphereLoc = new createVector(width/2, height*2.9);
-	atmosphereSize = new createVector(width*3, width*3);
-	earthLoc = new createVector(width/2, height*3.1);
-	earthSize = new createVector(width*3, width*3);
+	AtmosphereLoc = new createVector(width/2, height*2.9);
+	AtmosphereSize = new createVector(width*3, width*3);
+	EarthLoc = new createVector(width/2, height*3.1);
+	EarthSize = new createVector(width*3, width*3);
 }
 
 //////////////////////////////////////////////////
 function draw()
 {
-	timeAliveMs += deltaTime;
+	TimeAliveMs += deltaTime;
 
 	// every 5 seconds the level increases
-	difficultyLevel = 1 + int(timeAliveMs / 5000);
+	DifficultyLevel = 1 + int(TimeAliveMs / 5000);
 
 	background(0);
 	sky();
 
-	spaceship.run();
-	asteroidSystem.Run();
+	Ship.run();
+	AsteroidsSystem.Run();
 
 	drawEarth();
 
@@ -74,14 +74,14 @@ function drawEarth()
 	noStroke();
 	//draw atmosphere
 	fill(0,0,255, 50);
-	ellipse(atmosphereLoc.x, atmosphereLoc.y, atmosphereSize.x,  atmosphereSize.y);
+	ellipse(AtmosphereLoc.x, AtmosphereLoc.y, AtmosphereSize.x,  AtmosphereSize.y);
 	//draw earth
 	fill(100,255);
 
 	push();
-	translate(earthLoc.x, earthLoc.y);
+	translate(EarthLoc.x, EarthLoc.y);
 	rotate(radians(-frameCount / 100));
-	image(planetImage, -earthSize.x / 2, -earthSize.y / 2, earthSize.x, earthSize.y)
+	image(planetImage, -EarthSize.x / 2, -EarthSize.y / 2, EarthSize.x, EarthSize.y)
 	pop();
 }
 
@@ -92,17 +92,17 @@ function drawHud()
 	fill(255);
 	textSize(32);
 
-	let timeAliveSec = timeAliveMs / 1000;
+	let timeAliveSec = TimeAliveMs / 1000;
 	timeAliveSec = Math.round(timeAliveSec * 10) / 10;
 
 	textAlign(LEFT, TOP);
 	text(`Time: ${timeAliveSec}s`, 10, 10);
 
 	textAlign(LEFT, TOP);
-	text(`Level: ${difficultyLevel}`, width / 2 - 75, 10);
+	text(`Level: ${DifficultyLevel}`, width / 2 - 75, 10);
 
 	textAlign(RIGHT, TOP);
-	text(`Asteroids Destroyed: ${asteroidsDestroyedCount}`, width - 10, 10);
+	text(`Asteroids Destroyed: ${AsteroidsDestroyedCount}`, width - 10, 10);
 
 }
 
@@ -110,48 +110,48 @@ function drawHud()
 //checks collisions between all types of bodies
 function checkCollisions()
 {
-	for (let asteroidIndex = 0; asteroidIndex < asteroidSystem.Asteroids.length; asteroidIndex++)
+	for (let asteroidIndex = 0; asteroidIndex < AsteroidsSystem.Asteroids.length; asteroidIndex++)
 	{
-		let asteroid = asteroidSystem.Asteroids[asteroidIndex];
+		let asteroid = AsteroidsSystem.Asteroids[asteroidIndex];
 		let asteroidLocation = asteroid.Location;
 		let asteroidSize = asteroid.Size;
 
 		//spaceship-2-asteroid collisions
-		if (isInside(asteroidLocation, asteroidSize, spaceship.location, spaceship.size))
+		if (isInside(asteroidLocation, asteroidSize, Ship.location, Ship.size))
 		{
 			gameOver();
 		}
 
 		//asteroid-2-earth collisions
-		if (isInside(asteroidLocation, asteroidSize, earthLoc, earthSize.x))
+		if (isInside(asteroidLocation, asteroidSize, EarthLoc, EarthSize.x))
 		{
 			gameOver();
 		}
 
 		//bullet collisions
-		let bullets = spaceship.bulletSys.bullets
+		let bullets = Ship.bulletSys.bullets
 		for (let bulletIndex = 0; bulletIndex < bullets.length; bulletIndex++)
 		{
-			if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam))
+			if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], Ship.bulletSys.diam))
 			{
-				asteroidSystem.Destroy(asteroidIndex);
-				spaceship.bulletSys.removeBullet(bulletIndex)
-				asteroidsDestroyedCount += 1;
+				AsteroidsSystem.Destroy(asteroidIndex);
+				Ship.bulletSys.removeBullet(bulletIndex)
+				AsteroidsDestroyedCount += 1;
 			}
 
 		}
 	}
 
 	//spaceship-2-earth
-	if (isInside(spaceship.location, spaceship.size, earthLoc, earthSize.x))
+	if (isInside(Ship.location, Ship.size, EarthLoc, EarthSize.x))
 	{
 		gameOver();
 	}
 
 	//spaceship-2-atmosphere
-	if (isInside(spaceship.location, spaceship.size, atmosphereLoc, atmosphereSize.x))
+	if (isInside(Ship.location, Ship.size, AtmosphereLoc, AtmosphereSize.x))
 	{
-		spaceship.setNearEarth();
+		Ship.setNearEarth();
 	}
 }
 
@@ -168,7 +168,7 @@ function keyPressed()
 {
 	if (keyIsPressed && keyCode === 32)
 	{ // if spacebar is pressed, fire!
-		spaceship.fire();
+		Ship.fire();
 	}
 }
 
@@ -180,7 +180,7 @@ function gameOver()
 	textSize(80);
 	textAlign(CENTER);
 	text("GAME OVER", width/2, height/2)
-	gameOverSfx.play();
+	GameOverSfx.play();
 	noLoop();
 }
 
@@ -189,16 +189,16 @@ function gameOver()
 function sky()
 {
 	push();
-	while (starLocs.length<300)
+	while (StarLocs.length<300)
 	{
-		starLocs.push(new createVector(random(width), random(height)));
+		StarLocs.push(new createVector(random(width), random(height)));
 	}
 	fill(255);
-	for (var i=0; i<starLocs.length; i++)
+	for (var i=0; i<StarLocs.length; i++)
 	{
-		rect(starLocs[i].x, starLocs[i].y,2,2);
+		rect(StarLocs[i].x, StarLocs[i].y,2,2);
 	}
 
-	if (random(1)<0.3) starLocs.splice(int(random(starLocs.length)),1);
+	if (random(1)<0.3) StarLocs.splice(int(random(StarLocs.length)),1);
 	pop();
 }

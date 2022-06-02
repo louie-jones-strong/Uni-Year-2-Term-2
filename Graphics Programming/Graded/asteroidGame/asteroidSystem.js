@@ -40,7 +40,7 @@ class AsteroidSystem
 
 		var spawnChance = 0.01;
 
-		spawnChance += 0.001 * difficultyLevel;
+		spawnChance += 0.001 * DifficultyLevel;
 
 
 		if (random(1) < spawnChance)
@@ -138,7 +138,7 @@ class Asteroid
 		let subAsteroidVelocity = new createVector(-0.1, 0);
 
 		let subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
-		asteroidSystem.AddAsteroid(subAsteroid);
+		AsteroidsSystem.AddAsteroid(subAsteroid);
 
 
 
@@ -146,6 +146,6 @@ class Asteroid
 		subAsteroidVelocity = new createVector(0.1, 0);
 
 		subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
-		asteroidSystem.AddAsteroid(subAsteroid);
+		AsteroidsSystem.AddAsteroid(subAsteroid);
 	}
 }
