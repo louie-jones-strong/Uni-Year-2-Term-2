@@ -5,11 +5,15 @@ class AsteroidSystem
 	constructor()
 	{
 		this.Asteroids = [];
+
+		// collection of asteroids that have been destroyed that are playing vfx
+		// before being removed
+		this.ExplosionVfxs = [];
 	}
 
-	run()
+	Run()
 	{
-		this.spawn();
+		this.SpawnAsteroid();
 
 		for (var i=0; i<this.Asteroids.length; i++)
 		{
@@ -17,10 +21,21 @@ class AsteroidSystem
 			asteroid.Move();
 			asteroid.Draw();
 		}
+
+		for (var i=0; i<this.ExplosionVfxs.length; i++)
+		{
+			const explosionVfx = this.ExplosionVfxs[i]
+			explosionVfx.Draw();
+
+			if (explosionVfx.Finished)
+			{
+				this.ExplosionVfxs.splice(i,1);
+			}
+		}
 	}
 
 	// spawns asteroid at random intervals
-	spawn()
+	SpawnAsteroid()
 	{
 
 		var spawnChance = 0.01;
@@ -30,20 +45,25 @@ class AsteroidSystem
 
 		if (random(1) < spawnChance)
 		{
-			this.addAsteroid(new Asteroid());
+			this.AddAsteroid(new Asteroid());
 		}
 	}
 
-	addAsteroid(asteroid)
+	AddAsteroid(asteroid)
 	{
 		this.Asteroids.push(asteroid);
 	}
 
 	//destroys all data associated with each asteroid
-	destroy(index)
+	Destroy(index)
 	{
-		this.Asteroids[index].Destroy();
+		let asteroid =this.Asteroids[index]
+		asteroid.Destroy();
 		this.Asteroids.splice(index,1);
+
+		let explosionVfx = new AnimatedSprite(ExplosionSpriteSheetImage, 8, 4, 1 / 60, false);
+		explosionVfx.SetLocation(asteroid.Location.x, asteroid.Location.y, asteroid.Size, asteroid.Size, true);
+		this.ExplosionVfxs.push(explosionVfx);
 	}
 }
 
@@ -82,6 +102,7 @@ class Asteroid
 
 	Move()
 	{
+
 		this.Velocity.add(this.Acceleration);
 		this.Location.add(this.Velocity);
 		this.Acceleration.mult(0);
@@ -117,7 +138,7 @@ class Asteroid
 		let subAsteroidVelocity = new createVector(-0.1, 0);
 
 		let subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
-		asteroidSystem.addAsteroid(subAsteroid);
+		asteroidSystem.AddAsteroid(subAsteroid);
 
 
 
@@ -125,6 +146,6 @@ class Asteroid
 		subAsteroidVelocity = new createVector(0.1, 0);
 
 		subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
-		asteroidSystem.addAsteroid(subAsteroid);
+		asteroidSystem.AddAsteroid(subAsteroid);
 	}
 }

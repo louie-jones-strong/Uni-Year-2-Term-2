@@ -16,12 +16,14 @@ var gameOverSfx;
 
 function preload()
 {
-	soundFormats("ogg", "wav");
-	// credit for planet images from https://deep-fold.itch.io/pixel-planet-generator
+	// load images
 	planetImage = loadImage("Assets/Images/Planet.png");
-
-	gameOverSfx = loadSound("Assets/Audio/lose");
 	AsteroidImage = loadImage("Assets/Images/meteor.png");
+	ExplosionSpriteSheetImage = loadImage("Assets/Images/explosion.png");
+
+	// load sounds
+	soundFormats("ogg", "wav");
+	gameOverSfx = loadSound("Assets/Audio/lose");
 	AsteroidDestroySfx = loadSound("Assets/Audio/explosion.wav");
 }
 
@@ -56,13 +58,13 @@ function draw()
 	sky();
 
 	spaceship.run();
-	asteroidSystem.run();
+	asteroidSystem.Run();
 
 	drawEarth();
 
 	drawHud();
 
-	checkCollisions(spaceship, asteroidSystem); // function that checks collision between various elements
+	checkCollisions(); // function that checks collision between various elements
 }
 
 //////////////////////////////////////////////////
@@ -106,12 +108,11 @@ function drawHud()
 
 //////////////////////////////////////////////////
 //checks collisions between all types of bodies
-function checkCollisions(spaceship, asteroids)
+function checkCollisions()
 {
-
-	for (let asteroidIndex = 0; asteroidIndex < asteroids.Asteroids.length; asteroidIndex++)
+	for (let asteroidIndex = 0; asteroidIndex < asteroidSystem.Asteroids.length; asteroidIndex++)
 	{
-		let asteroid = asteroids.Asteroids[asteroidIndex];
+		let asteroid = asteroidSystem.Asteroids[asteroidIndex];
 		let asteroidLocation = asteroid.Location;
 		let asteroidSize = asteroid.Size;
 
@@ -133,7 +134,7 @@ function checkCollisions(spaceship, asteroids)
 		{
 			if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam))
 			{
-				asteroids.destroy(asteroidIndex);
+				asteroidSystem.Destroy(asteroidIndex);
 				spaceship.bulletSys.removeBullet(bulletIndex)
 				asteroidsDestroyedCount += 1;
 			}
