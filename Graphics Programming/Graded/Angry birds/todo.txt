@@ -58,6 +58,7 @@ Add another physics object that adds to the gameplay in a fun way.
 
 make ground a class that extend box class
 remove magic numbers
+and keys on screen
 
 
 

@@ -35,6 +35,8 @@ var score = 0;
 ////////////////////////////////////////////////////////////
 function setup() {
 	canvas = createCanvas(1000, 600);
+	canvas.id('canvas');
+	canvas.parent("content");
 
 	engine = Engine.create();  // create an engine
 
@@ -143,10 +145,15 @@ function keyTyped(){
 
 	//if 'r' reset the slingshot
 	if (key==='r'){
-		removeFromWorld(slingshotBird);
-		removeFromWorld(slingshotConstraint);
-		setupSlingshot();
+		ResetSlingshot();
 	}
+}
+
+function ResetSlingshot()
+{
+	removeFromWorld(slingshotBird);
+	removeFromWorld(slingshotConstraint);
+	setupSlingshot();
 }
 
 //**********************************************************************
@@ -203,3 +210,7 @@ function drawConstraint(constraint) {
 	);
 	pop();
 }
+
+
+document.getElementById("resetSlingShot").onclick = function(){ResetSlingshot();};
+document.getElementById("spawnBird").onclick = function(){setupBird();};
