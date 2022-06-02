@@ -1,5 +1,5 @@
 var spaceship;
-var asteroids;
+var asteroidSystem;
 var atmosphereLoc;
 var atmosphereSize;
 var earthLoc;
@@ -7,7 +7,10 @@ var earthSize;
 var starLocs = [];
 var timeAliveMs;
 var difficultyLevel;
-var asteroidsDestroyed;
+var asteroidsDestroyedCount;
+
+var AsteroidImage;
+var AsteroidDestroySfx;
 
 var gameOverSfx;
 
@@ -18,6 +21,8 @@ function preload()
 	planetImage = loadImage("Assets/Images/Planet.png");
 
 	gameOverSfx = loadSound("Assets/Audio/lose");
+	AsteroidImage = loadImage("Assets/Images/meteor.png");
+	AsteroidDestroySfx = loadSound("Assets/Audio/explosion.wav");
 }
 
 //////////////////////////////////////////////////
@@ -25,10 +30,10 @@ function setup()
 {
 	createCanvas(1200,800);
 	spaceship = new Spaceship();
-	asteroids = new AsteroidSystem();
+	asteroidSystem = new AsteroidSystem();
 
 	timeAliveMs = 0;
-	asteroidsDestroyed = 0;
+	asteroidsDestroyedCount = 0;
 
 
 
@@ -51,13 +56,13 @@ function draw()
 	sky();
 
 	spaceship.run();
-	asteroids.run();
+	asteroidSystem.run();
 
 	drawEarth();
 
 	drawHud();
 
-	checkCollisions(spaceship, asteroids); // function that checks collision between various elements
+	checkCollisions(spaceship, asteroidSystem); // function that checks collision between various elements
 }
 
 //////////////////////////////////////////////////
@@ -95,7 +100,7 @@ function drawHud()
 	text(`Level: ${difficultyLevel}`, width / 2 - 75, 10);
 
 	textAlign(RIGHT, TOP);
-	text(`Asteroids Destroyed: ${asteroidsDestroyed}`, width - 10, 10);
+	text(`Asteroids Destroyed: ${asteroidsDestroyedCount}`, width - 10, 10);
 
 }
 
@@ -104,10 +109,11 @@ function drawHud()
 function checkCollisions(spaceship, asteroids)
 {
 
-	for (let asteroidIndex = 0; asteroidIndex < asteroids.locations.length; asteroidIndex++)
+	for (let asteroidIndex = 0; asteroidIndex < asteroids.Asteroids.length; asteroidIndex++)
 	{
-		let asteroidLocation = asteroids.locations[asteroidIndex];
-		let asteroidSize = asteroids.diams[asteroidIndex];
+		let asteroid = asteroids.Asteroids[asteroidIndex];
+		let asteroidLocation = asteroid.Location;
+		let asteroidSize = asteroid.Size;
 
 		//spaceship-2-asteroid collisions
 		if (isInside(asteroidLocation, asteroidSize, spaceship.location, spaceship.size))
@@ -128,7 +134,8 @@ function checkCollisions(spaceship, asteroids)
 			if (isInside(asteroidLocation, asteroidSize, bullets[bulletIndex], spaceship.bulletSys.diam))
 			{
 				asteroids.destroy(asteroidIndex);
-				asteroidsDestroyed += 1;
+				spaceship.bulletSys.removeBullet(bulletIndex)
+				asteroidsDestroyedCount += 1;
 			}
 
 		}

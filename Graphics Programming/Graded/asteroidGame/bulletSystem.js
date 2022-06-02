@@ -56,7 +56,14 @@ class BulletSystem
 		for (var i=0; i<this.bullets.length; i++)
 		{
 			if (this.bullets[i].y >= height)
-			splice(i, 1)
+			{
+				removeBullet()
+			}
 		}
+	}
+
+	removeBullet(i)
+	{
+		this.bullets.splice(i, 1)
 	}
 }

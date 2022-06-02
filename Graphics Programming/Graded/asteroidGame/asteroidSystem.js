@@ -4,19 +4,19 @@ class AsteroidSystem
 	//creates arrays to store each asteroid's data
 	constructor()
 	{
-		this.locations = [];
-		this.velocities = [];
-		this.accelerations = [];
-		this.diams = [];
-		this.Image = loadImage("Assets/Images/meteor.png");
-		this.ExplosionSfx = loadSound("Assets/Audio/explosion.wav");
+		this.Asteroids = [];
 	}
 
 	run()
 	{
 		this.spawn();
-		this.move();
-		this.draw();
+
+		for (var i=0; i<this.Asteroids.length; i++)
+		{
+			const asteroid = this.Asteroids[i];
+			asteroid.Move();
+			asteroid.Draw();
+		}
 	}
 
 	// spawns asteroid at random intervals
@@ -30,67 +30,101 @@ class AsteroidSystem
 
 		if (random(1) < spawnChance)
 		{
-			this.accelerations.push(new createVector(0,random(0.1,1)));
-			this.velocities.push(new createVector(0, 0));
-			this.locations.push(new createVector(random(width), 0));
-			this.diams.push(random(30,50));
+			this.addAsteroid(new Asteroid());
 		}
 	}
 
-	//moves all asteroids
-	move()
+	addAsteroid(asteroid)
 	{
-		for (var i=0; i<this.locations.length; i++)
-		{
-			this.velocities[i].add(this.accelerations[i]);
-			this.locations[i].add(this.velocities[i]);
-			this.accelerations[i].mult(0);
-		}
-	}
-
-	applyForce(f)
-	{
-		for (var i=0; i<this.locations.length; i++)
-		{
-			this.accelerations[i].add(f);
-		}
-	}
-
-	//draws all asteroids
-	draw()
-	{
-		noStroke();
-		fill(200);
-
-		for (var i=0; i<this.locations.length; i++)
-		{
-			let size = this.diams[i];
-			let x = this.locations[i].x - size / 2;
-			let y = this.locations[i].y - size / 2;
-
-			image(this.Image, x, y, size, size);
-		}
-	}
-
-	//function that calculates effect of gravity on each asteroid and accelerates it
-	calcGravity(centerOfMass)
-	{
-		for (var i=0; i<this.locations.length; i++)
-		{
-			var gravity = p5.Vector.sub(centerOfMass, this.locations[i]);
-			gravity.normalize();
-			gravity.mult(.001);
-			this.applyForce(gravity);
-		}
+		this.Asteroids.push(asteroid);
 	}
 
 	//destroys all data associated with each asteroid
 	destroy(index)
 	{
-		this.locations.splice(index,1);
-		this.velocities.splice(index,1);
-		this.accelerations.splice(index,1);
-		this.diams.splice(index,1);
-		this.ExplosionSfx.play();
+		this.Asteroids[index].Destroy();
+		this.Asteroids.splice(index,1);
+	}
+}
+
+
+
+
+class Asteroid
+{
+	constructor(location, size, velocity)
+	{
+		this.Size = size;
+		if (this.Size == undefined)
+		{
+			this.Size = random(30,100);
+		}
+
+		this.Location = location;
+		if (this.Location == undefined)
+		{
+			this.Location = new createVector(random(this.Size, width- this.Size), 0);
+		}
+
+		// clamp to the width of the canvas if the Asteroid was created by the split function
+		this.Location.x = Math.max(this.Location.x, 0);
+		this.Location.x = Math.min(this.Location.x, width);
+
+		this.Velocity = velocity;
+		if (this.Velocity == undefined)
+		{
+			this.Velocity = new createVector(0, 0);
+		}
+
+		this.Acceleration = new createVector(0,random(0.1,1));
+		this.Rotation = random(0,360);
+	}
+
+	Move()
+	{
+		this.Velocity.add(this.Acceleration);
+		this.Location.add(this.Velocity);
+		this.Acceleration.mult(0);
+	}
+
+	Draw()
+	{
+		let x = this.Location.x;
+		let y = this.Location.y;
+
+		push();
+		translate(x, y);
+		rotate(radians(this.Rotation));
+
+
+		image(AsteroidImage, - this.Size / 2, - this.Size / 2, this.Size, this.Size);
+		pop();
+	}
+
+	Destroy()
+	{
+		AsteroidDestroySfx.play();
+		if (this.Size > 80)
+		{
+			this.Split();
+		}
+	}
+
+	// splits the asteroid in to two smaller asteroids
+	Split()
+	{
+		let subAsteroidPos = new createVector(this.Location.x - this.Size / 4, this.Location.y);
+		let subAsteroidVelocity = new createVector(-0.1, 0);
+
+		let subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
+		asteroidSystem.addAsteroid(subAsteroid);
+
+
+
+		subAsteroidPos = new createVector(this.Location.x + this.Size / 4, this.Location.y);
+		subAsteroidVelocity = new createVector(0.1, 0);
+
+		subAsteroid = new Asteroid(subAsteroidPos, this.Size / 2, subAsteroidVelocity);
+		asteroidSystem.addAsteroid(subAsteroid);
 	}
 }
