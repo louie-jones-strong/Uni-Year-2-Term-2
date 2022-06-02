@@ -47,6 +47,11 @@ remove magic numbers
 
 maybe make it classes based
 
+show path, or trail of the bodies
+
+tick marks for sliders
+
+
 
 Marking rubric:
 Step 1 - [1 points]: Earth is at the right orbit.

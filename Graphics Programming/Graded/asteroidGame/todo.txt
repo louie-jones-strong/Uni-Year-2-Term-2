@@ -53,9 +53,14 @@ Make the spaceship pretty by adding jets thrusters which activate from the oppos
 
 astroids to explode
 sounds affects
+music
+sfx for teh thrusters
+diffrent sound when in the atmasfier
 
 optimize the collided
 add current level text
+
+random rotaion for each astroid
 
 
 

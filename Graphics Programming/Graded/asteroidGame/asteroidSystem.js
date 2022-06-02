@@ -14,9 +14,9 @@ class AsteroidSystem
 
 	run()
 	{
-			this.spawn();
-			this.move();
-			this.draw();
+		this.spawn();
+		this.move();
+		this.draw();
 	}
 
 	// spawns asteroid at random intervals
