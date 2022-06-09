@@ -59,6 +59,8 @@ function setup() {
 		boxImages.push(loadImage(`assets/Crates/${index}.png`));
 	}
 
+	platformImage = loadImage(`assets/Platform.png`);
+
 	setupGround();
 
 	setupPropeller();

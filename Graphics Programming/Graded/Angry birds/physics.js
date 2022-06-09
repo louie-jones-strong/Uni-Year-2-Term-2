@@ -30,7 +30,12 @@ function drawPropeller(){
 
 	angle += angleSpeed
 
-	drawVertices(propeller.vertices);
+
+	translate(propeller.position.x, propeller.position.y);
+	rotate(angle);
+
+	image(platformImage, -100, -14/2, 200, 15);
+
 	pop();
 }
 ////////////////////////////////////////////////////////////////
@@ -47,14 +52,15 @@ function drawMovingWall(){
 	push();
 
 	movingWallPosY += movingWallSpeed;
-	if(movingWallPosY<= 200 || movingWallPosY >= 400) {
+	if(movingWallPosY<= 200 || movingWallPosY >= 350) {
 		movingWallSpeed *= -1;
 	}
 
 	Body.setPosition(movingWall, {x:500, y:movingWallPosY});
 	Body.setVelocity(movingWall, {x:0, y:movingWallPosY});
 
-	drawVertices(movingWall.vertices);
+	image(platformImage, 500-15/2, movingWallPosY-150, 15, 300);
+
 	pop();
 }
 ////////////////////////////////////////////////////////////////
