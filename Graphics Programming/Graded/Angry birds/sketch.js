@@ -59,8 +59,9 @@ function setup() {
 		boxImages.push(loadImage(`assets/Crates/${index}.png`));
 	}
 
-	platformImage = loadImage(`assets/Platform.png`);
+
 	backgroundImage = loadImage(`assets/background.png`);
+
 
 	setupGround();
 

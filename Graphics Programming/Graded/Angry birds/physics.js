@@ -9,7 +9,7 @@ function setupGround(){
 ////////////////////////////////////////////////////////////////
 function drawGround(){
 	push();
-	fill(128);
+	fill(50,150, 50);
 	drawVertices(ground.vertices);
 	pop();
 }
@@ -29,13 +29,8 @@ function drawPropeller(){
 	Body.setAngularVelocity(propeller, angleSpeed);
 
 	angle += angleSpeed
-
-
-	translate(propeller.position.x, propeller.position.y);
-	rotate(angle);
-
-	image(platformImage, -100, -14/2, 200, 15);
-
+	fill(128);
+	drawVertices(propeller.vertices);
 	pop();
 }
 ////////////////////////////////////////////////////////////////
@@ -58,9 +53,8 @@ function drawMovingWall(){
 
 	Body.setPosition(movingWall, {x:500, y:movingWallPosY});
 	Body.setVelocity(movingWall, {x:0, y:movingWallPosY});
-
-	image(platformImage, 500-15/2, movingWallPosY-150, 15, 300);
-
+	fill(128);
+	drawVertices(movingWall.vertices);
 	pop();
 }
 ////////////////////////////////////////////////////////////////
