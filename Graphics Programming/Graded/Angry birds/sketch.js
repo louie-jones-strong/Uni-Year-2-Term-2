@@ -210,7 +210,3 @@ function drawConstraint(constraint) {
 	);
 	pop();
 }
-
-
-document.getElementById("resetSlingShot").onclick = function(){ResetSlingshot();};
-document.getElementById("spawnBird").onclick = function(){setupBird();};
