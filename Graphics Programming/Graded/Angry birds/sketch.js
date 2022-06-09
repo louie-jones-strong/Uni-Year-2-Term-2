@@ -32,6 +32,18 @@ var canvas;
 
 var timeLeftMs = 60 * 1000;
 var score = 0;
+
+var birdAudio = [];
+
+
+function preload()
+{
+	for (let i = 0; i < 8; i++)
+	{
+		birdAudio.push(loadSound(`assets/Audio/bird_${i}.wav`));
+	}
+}
+
 ////////////////////////////////////////////////////////////
 function setup() {
 	canvas = createCanvas(1000, 600);
@@ -164,8 +176,13 @@ function ResetSlingshot()
 //slingshot bird can fly off
 function mouseReleased(){
 	setTimeout(() => {
-		slingshotConstraint.bodyB = null;
-		slingshotConstraint.pointA = { x: 0, y: 0 };
+
+		if (slingshotConstraint.bodyB != null)
+		{
+			slingshotConstraint.bodyB = null;
+			slingshotConstraint.pointA = { x: 0, y: 0 };
+			PlayBirdAudio();
+		}
 	}, 100);
 }
 ////////////////////////////////////////////////////////////
@@ -209,4 +226,10 @@ function drawConstraint(constraint) {
 		posB.y + offsetB.y
 	);
 	pop();
+}
+
+
+function PlayBirdAudio()
+{
+	birdAudio[Math.round(Math.random() * 8)].play();
 }

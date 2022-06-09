@@ -65,6 +65,7 @@ function setupBird(){
 	World.add(engine.world, [bird]);
 	birds.push(bird);
 	birdsImgIndex.push(Math.round(Math.random() * 3));
+	PlayBirdAudio();
 }
 ////////////////////////////////////////////////////////////////
 function drawBirds(){
