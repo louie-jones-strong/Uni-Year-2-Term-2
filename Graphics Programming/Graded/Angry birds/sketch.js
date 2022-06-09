@@ -60,6 +60,7 @@ function setup() {
 	}
 
 	platformImage = loadImage(`assets/Platform.png`);
+	backgroundImage = loadImage(`assets/background.png`);
 
 	setupGround();
 
@@ -78,6 +79,8 @@ function draw() {
 	timeLeftMs -= deltaTime;
 
 	background(0);
+	image(backgroundImage, 0, 0, 1000, 600);
+
 
 	Engine.update(engine);
 
