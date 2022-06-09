@@ -127,7 +127,7 @@ function drawHud() {
 //////////////////////////////////////////////////
 // function that ends the game by stopping the loops and displaying "Game Over"
 function gameOver(){
-	fill(255);
+	fill(0);
 	textSize(80);
 	textAlign(CENTER);
 	text("GAME OVER", width/2, height/2)
@@ -137,7 +137,7 @@ function gameOver(){
 //////////////////////////////////////////////////
 // function that ends the game by stopping the loops and displaying "Game Over"
 function gameWin(){
-	fill(255);
+	fill(0);
 	textSize(80);
 	textAlign(CENTER);
 	text("Win", width/2, height/2)
