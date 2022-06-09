@@ -13,6 +13,7 @@ class Spaceship
 
 		this.ShipImage = loadImage("Assets/Images/ship.png");
 		this.ThrusterImage = loadImage("Assets/Images/thruster.png");
+		this.ThrusterAudio = createAudio('Assets/Audio/Thruster.wav');
 	}
 
 	run()
@@ -32,6 +33,15 @@ class Spaceship
 
 		x = this.location.x - this.thrusterSize / 2;
 		y = this.location.y + this.size / 2;
+
+		if (this.acceleration.mag() > 0)
+		{
+			this.ThrusterAudio.loop();
+		}
+		else
+		{
+			this.ThrusterAudio.stop();
+		}
 
 		push();
 		if (this.acceleration.y < 0)
