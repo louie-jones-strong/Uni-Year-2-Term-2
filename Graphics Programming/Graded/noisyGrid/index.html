@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html>
+  <body>
+		<div id="content">
+      <div id="settings">
+        <input id="colour1" type="color">
+        <input id="colour2" type="color">
+				<button id="toggleLines">Toggle Lines</button>
+
+				<label for="speedSlider">Speed</label>
+				<input id="speedSlider" type="range" min="0" max="0.1" step="0.001" value="0.01">
+			</div>
+		</div>
+	</body>
+
   <head>
     <meta charset="UTF-8">
     <title>graphicsProgramming - Coursera</title>
     <script src="libraries/p5.min.js" type="text/javascript"></script>
     <script src="libraries/p5.sound.min.js" type="text/javascript"></script>
-    
+
     <script src="sketch.js" type="text/javascript"></script>
 
-    <style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
+    <style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			canvas {
+				vertical-align: top;
+			}
+			#settings {
+				background-color: black;
+				color: white;
+				position: fixed;
+				display: flex;
+				flex-direction: column;
+				width: 10em;
+				gap: 10px;
+				opacity: 0.35;
+				padding: 0.5em;
+			}
+			#settings:hover{
+				opacity: 1;
+			}
+			#settings > button{
+				padding-block: 0.5em;
+				border-radius: 0.75em;
+			}
+		</style>
   </head>
-  <body>
-  </body>
 </html>

@@ -1,17 +1,33 @@
 var stepSize = 20;
 var speed = 0;
+var showLines = true;
+
+var colour1;
+var colour2;
 
 function setup()
 {
 	angleMode(DEGREES);
 	createCanvas(500, 500);
+
+	let colorPicker = document.getElementById("colour1").value = "#ff0000";
+	colorPicker = document.getElementById("colour2").value = "#00ff00";
+
 }
 ///////////////////////////////////////////////////////////////////////
 function draw()
 {
+	speed = document.getElementById("speedSlider").value;
+
+	let colorPicker = document.getElementById("colour1");
+	colour1 = color(colorPicker.value);
+
+	colorPicker = document.getElementById("colour2");
+	colour2 = color(colorPicker.value);
+
+
 	background(125);
 
-	speed = map(mouseX, 0, 500, 0.01, 0.1);
 
 	colorGrid();
 	compassGrid();
@@ -23,10 +39,10 @@ function colorGrid()
 	{
 		for (let y = 0; y < 25; y++)
 		{
-			let n = GetNoise(x, y);
-			let c = lerpColor(color(255, 0, 0), color(0, 255, 0), n);
+			let noise = GetNoise(x, y);
+			let colour = lerpColor(colour1, colour2, noise);
 			noStroke();
-			fill(c);
+			fill(colour);
 
 
 			rect(x * stepSize, y * stepSize, stepSize, stepSize);
@@ -52,10 +68,14 @@ function compassGrid()
 			let r = map(n, 0, 1, 0, 720);
 			rotate(r);
 
-			n = GetNoise(x + stepSize, y + stepSize);
-			let l = map(n, 0, 1, 0.25, 1.5);
+			if (showLines)
+			{
+				n = GetNoise(x + stepSize, y + stepSize);
+				let l = map(n, 0, 1, 0.25, 1.5);
 
-			line(0, stepSize * l, 0, 0);
+				line(0, stepSize * l, 0, 0);
+
+			}
 
 			pop();
 		}
@@ -68,3 +88,5 @@ function GetNoise(x, y, size, rate)
 	let n = noise(x/stepSize, y/stepSize, frameCount * speed);
 	return n;
 }
+
+document.getElementById("toggleLines").onclick = function(){showLines = !showLines;};
