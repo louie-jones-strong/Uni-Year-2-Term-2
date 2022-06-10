@@ -2,7 +2,6 @@ var canvasSize = 500;
 
 var stepSize = 20;
 
-var speed = 0;
 var lineSize = 1;
 var showLines = true;
 var showBackground = true;
@@ -25,7 +24,9 @@ function setup()
 {
 	angleMode(DEGREES);
 
-	createCanvas(canvasSize, canvasSize);
+	let canvas = createCanvas(canvasSize, canvasSize);
+	canvas.id('canvas');
+	canvas.parent("content");
 
 	backgroundColourPicker1 = document.getElementById("backgroundColour1");
 	backgroundColourPicker1.value = "#ff0000";
@@ -41,7 +42,7 @@ function setup()
 ///////////////////////////////////////////////////////////////////////
 function draw()
 {
-	speed = document.getElementById("speedSlider").value;
+	// getting settings from the html
 	lineSize = document.getElementById("lineSize").value;
 
 	backgroundColour1 = color(backgroundColourPicker1.value);
@@ -50,16 +51,20 @@ function draw()
 	lineColour1 = color(lineColourPicker1.value);
 	lineColour2 = color(lineColourPicker2.value);
 
-	if (speed == 0)
+	xNoiseScroll = document.getElementById("xNoiseScroll").value;
+	yNoiseScroll = document.getElementById("yNoiseScroll").value;
+	zNoiseScroll = document.getElementById("zNoiseScroll").value;
+
+	if (xNoiseScroll == 0 && yNoiseScroll == 0 && zNoiseScroll == 0)
 	{
-		// if nothing is moving we don't need to both rendering new frame
+		// if nothing is moving we don't need to bother rendering new frame
 		return;
 	}
 
 	background(backgroundColour1);
 
 
-	elapsedTime += (deltaTime / 1000) * speed;
+	elapsedTime += deltaTime / 1000;
 
 	if (showBackground)
 	{
@@ -104,32 +109,39 @@ function compassGrid()
 		{
 			push();
 
-	translate((x + 0.5) * stepSize, (y + 0.5) * stepSize);
+			translate((x + 0.5) * stepSize, (y + 0.5) * stepSize);
 
-	let noise = GetNoise(x, y);
-	let rotation = map(noise, 0, 1, 0, 360);
-	let colour = lerpColor(lineColour1, lineColour2, noise);
-	rotate(rotation);
-
-
-	noise = GetNoise(x, y);
-	let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
-
-	stroke(colour);
-
-	strokeWeight(lineSize * lineSizeMultiplier * 4)
-	line(0, stepSize * lineSize * lineSizeMultiplier, 0, 0);
+			let noise = GetNoise(x, y);
+			let rotation = map(noise, 0, 1, 0, 360);
+			let colour = lerpColor(lineColour1, lineColour2, noise);
+			rotate(rotation);
 
 
-	pop();
+			noise = GetNoise(x, y);
+			let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
+
+			stroke(colour);
+
+			strokeWeight(lineSize * lineSizeMultiplier * 4)
+			line(0, stepSize * lineSize * lineSizeMultiplier, 0, 0);
+
+
+			pop();
 		}
 	}
 }
 
 
-function GetNoise(x, y)
+function GetNoise(x, y, z=0)
 {
-	let n = noise(x/stepSize, y/stepSize, elapsedTime);
+	x /= stepSize;
+	y /= stepSize;
+
+	x += elapsedTime * xNoiseScroll;
+	y += elapsedTime * yNoiseScroll;
+	z += elapsedTime * zNoiseScroll;
+
+	let n = noise(x, y, z);
 	// using map here to make the range more consistent as over 10,000 calls this rarely leaves the range of 0.25 to 0.75
 	return map(n, 0.25, 0.75, 0, 1);;
 }

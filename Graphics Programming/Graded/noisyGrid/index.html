@@ -20,8 +20,16 @@
 				<label for="lineSize">Max Line Size</label>
 				<input id="lineSize" type="range" min="0.2" max="10" step="0.1" value="1">
 
-				<label for="speedSlider">Speed</label>
-				<input id="speedSlider" type="range" min="0" max="10" step="0.1" value="1">
+				Scroll Vector
+				<div>
+					X<input id="xNoiseScroll" type="number" min="-4" max="4" step="0.1" value="0">
+				</div>
+				<div>
+					Y<input id="yNoiseScroll" type="number" min="-4" max="4" step="0.1" value="0">
+				</div>
+				<div>
+					Z<input id="zNoiseScroll" type="number" min="-4" max="4" step="0.1" value="1">
+				</div>
 			</div>
 		</div>
 	</body>
@@ -42,19 +50,17 @@
 			canvas {
 				vertical-align: top;
 			}
+			#content{
+				display: flex;
+			}
 			#settings {
 				background-color: black;
 				color: white;
-				position: fixed;
 				display: flex;
 				flex-direction: column;
 				width: 10em;
 				gap: 10px;
-				opacity: 0.35;
 				padding: 0.5em;
-			}
-			#settings:hover{
-				opacity: 1;
 			}
 			#settings > button{
 				padding-block: 0.5em;
