@@ -78,16 +78,14 @@ function compassGrid()
 
 			translate((x + 0.5) * stepSize, (y + 0.5) * stepSize);
 
-			let n = GetNoise(x, y);
-			let r = map(n, 0, 1, 0, 720);
-			rotate(r);
-
-
-			let noise = GetNoise(x + stepSize + 10000, y + stepSize);
-			let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
-
-			noise = GetNoise(x, y);
+			let noise = GetNoise(x, y);
+			let rotation = map(noise, 0, 1, 0, 720);
 			let colour = lerpColor(lineColour1, lineColour2, noise);
+			rotate(rotation);
+
+
+			noise = GetNoise(x + stepSize + 10000, y + stepSize);
+			let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
 
 			stroke(colour);
 
