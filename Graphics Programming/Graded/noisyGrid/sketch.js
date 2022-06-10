@@ -5,7 +5,6 @@ var stepSize = 20;
 var lineSize = 1;
 var showLines = true;
 var showBackground = true;
-var elapsedTime = 0;
 
 
 var backgroundColourPicker1;
@@ -17,6 +16,10 @@ var lineColourPicker1;
 var lineColourPicker2;
 var lineColour1;
 var lineColour2;
+
+var xNoiseScroll = 0;
+var yNoiseScroll = 0;
+var zNoiseScroll = 0;
 
 
 
@@ -51,9 +54,9 @@ function draw()
 	lineColour1 = color(lineColourPicker1.value);
 	lineColour2 = color(lineColourPicker2.value);
 
-	xNoiseScroll = document.getElementById("xNoiseScroll").value;
-	yNoiseScroll = document.getElementById("yNoiseScroll").value;
-	zNoiseScroll = document.getElementById("zNoiseScroll").value;
+	xNoiseScroll += (deltaTime / 1000) * document.getElementById("xNoiseScroll").value;
+	yNoiseScroll += (deltaTime / 1000) * document.getElementById("yNoiseScroll").value;
+	zNoiseScroll += (deltaTime / 1000) * document.getElementById("zNoiseScroll").value;
 
 	if (xNoiseScroll == 0 && yNoiseScroll == 0 && zNoiseScroll == 0)
 	{
@@ -62,9 +65,6 @@ function draw()
 	}
 
 	background(backgroundColour1);
-
-
-	elapsedTime += deltaTime / 1000;
 
 	if (showBackground)
 	{
@@ -137,9 +137,9 @@ function GetNoise(x, y, z=0)
 	x /= stepSize;
 	y /= stepSize;
 
-	x += elapsedTime * xNoiseScroll;
-	y += elapsedTime * yNoiseScroll;
-	z += elapsedTime * zNoiseScroll;
+	x += xNoiseScroll;
+	y += yNoiseScroll;
+	z += zNoiseScroll;
 
 	let n = noise(x, y, z);
 	// using map here to make the range more consistent as over 10,000 calls this rarely leaves the range of 0.25 to 0.75
