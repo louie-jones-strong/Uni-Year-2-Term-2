@@ -1,36 +1,50 @@
 var stepSize = 20;
 var speed = 0;
+var lineSize = 1;
 var showLines = true;
 
-var colour1;
-var colour2;
+var backgroundColour1;
+var backgroundColour2;
+
+var lineColour1;
+var lineColour2;
 
 function setup()
 {
 	angleMode(DEGREES);
 	createCanvas(500, 500);
 
-	let colorPicker = document.getElementById("colour1").value = "#ff0000";
-	colorPicker = document.getElementById("colour2").value = "#00ff00";
+	let colorPicker = document.getElementById("backgroundColour1").value = "#ff0000";
+	colorPicker = document.getElementById("backgroundColour2").value = "#00ff00";
 
 }
 ///////////////////////////////////////////////////////////////////////
 function draw()
 {
 	speed = document.getElementById("speedSlider").value;
+	lineSize = document.getElementById("lineSize").value;
 
-	let colorPicker = document.getElementById("colour1");
-	colour1 = color(colorPicker.value);
+	let colorPicker = document.getElementById("backgroundColour1");
+	backgroundColour1 = color(colorPicker.value);
 
-	colorPicker = document.getElementById("colour2");
-	colour2 = color(colorPicker.value);
+	colorPicker = document.getElementById("backgroundColour2");
+	backgroundColour2 = color(colorPicker.value);
+
+	colorPicker = document.getElementById("lineColour1");
+	lineColour1 = color(colorPicker.value);
+
+	colorPicker = document.getElementById("lineColour2");
+	lineColour2 = color(colorPicker.value);
 
 
 	background(125);
 
 
 	colorGrid();
-	compassGrid();
+	if (showLines)
+	{
+		compassGrid();
+	}
 }
 ///////////////////////////////////////////////////////////////////////
 function colorGrid()
@@ -40,7 +54,7 @@ function colorGrid()
 		for (let y = 0; y < 25; y++)
 		{
 			let noise = GetNoise(x, y);
-			let colour = lerpColor(colour1, colour2, noise);
+			let colour = lerpColor(backgroundColour1, backgroundColour2, noise);
 			noStroke();
 			fill(colour);
 
@@ -68,14 +82,18 @@ function compassGrid()
 			let r = map(n, 0, 1, 0, 720);
 			rotate(r);
 
-			if (showLines)
-			{
-				n = GetNoise(x + stepSize, y + stepSize);
-				let l = map(n, 0, 1, 0.25, 1.5);
 
-				line(0, stepSize * l, 0, 0);
+			let noise = GetNoise(x + stepSize + 10000, y + stepSize);
+			let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
 
-			}
+			noise = GetNoise(x, y);
+			let colour = lerpColor(lineColour1, lineColour2, noise);
+
+			stroke(colour);
+
+			strokeWeight(lineSize * lineSizeMultiplier * 4)
+			line(0, stepSize * lineSize * lineSizeMultiplier, 0, 0);
+
 
 			pop();
 		}

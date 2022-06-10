@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <body>
+	<body>
 		<div id="content">
-      <div id="settings">
-        <input id="colour1" type="color">
-        <input id="colour2" type="color">
+			<div id="settings">
+				background color
+				<div>
+					<input id="backgroundColour1" type="color">
+					<input id="backgroundColour2" type="color">
+				</div>
+				Line color
+				<div>
+					<input id="lineColour1" type="color">
+					<input id="lineColour2" type="color">
+				</div>
+
 				<button id="toggleLines">Toggle Lines</button>
+
+				<label for="lineSize">Max Line Size</label>
+				<input id="lineSize" type="range" min="0.2" max="10" step="0.1" value="1">
 
 				<label for="speedSlider">Speed</label>
 				<input id="speedSlider" type="range" min="0" max="0.1" step="0.001" value="0.01">
