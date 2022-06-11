@@ -111,8 +111,8 @@ function compassGrid()
 			rotate(rotation);
 
 
-			noise = GetNoise(x, y);
-			let lineSizeMultiplier = map(noise, 0, 1, 0.25, 1);
+			noise = GetNoise(x, y, 1000);
+			let lineSizeMultiplier = map(noise, 0, 1, 0.1, 1);
 
 			stroke(colour);
 
