@@ -58,12 +58,6 @@ function draw()
 	yNoiseScroll += (deltaTime / 1000) * document.getElementById("yNoiseScroll").value;
 	zNoiseScroll += (deltaTime / 1000) * document.getElementById("zNoiseScroll").value;
 
-	if (xNoiseScroll == 0 && yNoiseScroll == 0 && zNoiseScroll == 0)
-	{
-		// if nothing is moving we don't need to bother rendering new frame
-		return;
-	}
-
 	background(backgroundColour1);
 
 	if (showBackground)
