@@ -1,0 +1,175 @@
+[
+	{
+		"StockName": "Tesla",
+		"Tag": "TSLA",
+		"TwitterUsernames": [
+			"@Tesla",
+			"@elonmusk",
+			"@solarcity"
+		],
+		"TwitterHashTags":[
+			"#telsa",
+			"#elon",
+			"#musk"
+		],
+		"TwitterPhrases":[
+			"telsa",
+			"electric cars",
+			"elon musk"
+		]
+	},
+	{
+		"StockName": "Apple",
+		"Tag": "AAPL",
+		"TwitterUsernames": [
+			"@Apple",
+			"@tim_cook",
+			"@AppleMusic",
+			"@AppleTV",
+			"@AppleArcade",
+			"@AppleTVPlus",
+			"@AppleNews"
+		],
+		"TwitterHashTags":[
+			"#Apple",
+			"#iphone",
+			"#Mac",
+			"#AirPods"
+		],
+		"TwitterPhrases":[
+			"Apple",
+			"iphone",
+			"mac",
+			"AirPods"
+		]
+	},
+	{
+		"StockName": "Microsoft",
+		"Tag": "MSFT",
+		"TwitterUsernames": [
+			"@satyanadella",
+			"@BillGates",
+			"@Microsoft",
+			"@Azure",
+			"@Windows",
+			"@Office",
+			"@MicrosoftEdge",
+			"@onedrive",
+			"@MicrosoftTeams"
+		],
+		"TwitterHashTags":[
+			"#Microsoft",
+			"#Windows",
+			"#Azure"
+		],
+		"TwitterPhrases":[
+			"Microsoft",
+			"Windows",
+			"Azure"
+		]
+	},
+	{
+		"StockName": "Amazon",
+		"Tag": "AMZN",
+		"TwitterUsernames": [
+			"@JeffBezos",
+			"@amazon",
+			"@awscloud",
+			"@AmazonKindle",
+			"@AmazonHelp",
+			"@amazonmusic",
+			"@amazonnews",
+			"@alexa99",
+			"@PrimeVideo",
+			"@amazonluna",
+			"@amazonappstore",
+			"@AMZNGameStudios",
+			"@amazonbooks",
+			"@AmazonPub",
+			"@AmazonStudios",
+			"@AmazonFresh",
+			"@amazonpay",
+			"@amazonfiretv"
+		],
+		"TwitterHashTags":[
+			"#Amazon",
+			"#JeffBezos",
+			"#Jeff",
+			"#Bezos",
+			"#aws",
+			"#Prime"
+		],
+		"TwitterPhrases":[
+			"Amazon",
+			"aws",
+			"Prime"
+		]
+	},
+	{
+		"StockName": "Alphabet",
+		"Tag": "GOOGL",
+		"TwitterUsernames": [
+			"@Google",
+			"@googlemaps",
+			"@GooglePlay",
+			"@googledrive",
+			"@madebygoogle",
+			"@GoogleStadia",
+			"@GoogleAds",
+			"@AdSense",
+			"@YouTube"
+		],
+		"TwitterHashTags":[
+			"#Google",
+			"#Stadia",
+			"#YouTube"
+		],
+		"TwitterPhrases":[
+			"Google",
+			"Stadia",
+			"pixel phone",
+			"YouTube"
+		]
+	},
+	{
+		"StockName": "Meta",
+		"Tag": "META",
+		"TwitterUsernames": [
+			"@Meta",
+			"@facebook",
+			"@Oculus_Dev",
+			"@FacebookGaming",
+			"@MetaAI"
+		],
+		"TwitterHashTags":[
+			"#Meta",
+			"#facebook",
+			"#Oculus",
+			"#Zuckerberg"
+		],
+		"TwitterPhrases":[
+			"Meta",
+			"facebook",
+			"Oculus",
+			"Mark Zuckerberg"
+		]
+	},
+	{
+		"StockName": "Twitter",
+		"Tag": "TWTR",
+		"TwitterUsernames": [
+			"@jack",
+			"@Twitter",
+			"@TwitterSupport",
+			"@TwitterCreators",
+			"@verified",
+			"@elonmusk"
+		],
+		"TwitterHashTags":[
+			"#Twitter"
+		],
+		"TwitterPhrases":[
+			"Twitter"
+		]
+	}
+]
