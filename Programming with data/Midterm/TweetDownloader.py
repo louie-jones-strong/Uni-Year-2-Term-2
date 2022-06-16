@@ -1,4 +1,5 @@
 # Import libraries and modules
+from itertools import groupby
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import time
@@ -7,33 +8,15 @@ import json
 import os
 from datetime import datetime
 from dateutil import parser
+from statistics import mean
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer as SentimentAnalyzer
 sentimentAnalyzer = SentimentAnalyzer()
 
 
-
-
-
-#Scope Limits
-StartTime = "2012-05-01"
-EndTime = "2022-05-01"
-
-# scope of a jump
-JumpTriggerRatio = 1
-JumpTriggerPercentage = 5
-MinDaysBetweenJumps = 7
-
 #scope of number of tweets
 UsingHashTags = True
 UsingPhrases = False
-
-
-# caching folders
-TweetCacheFolder = "CachedTweets"
-StockCacheFolder = "CachedStockData"
-
-#what users do we care about
 
 
 
@@ -63,7 +46,37 @@ def GetTweetsFromAboutCompany(companyData, startTime, endTime, folder):
 	# cache exists
 	if os.path.exists(cachePath):
 		# df = pd.read_csv(cachePath)
-		print("tweets already downloaded " + companyData["StockName"])
+		print("tweets already downloaded " + companyData["StockName"] + "Lets compress down the data")
+
+		df = pd.read_csv(cachePath)
+
+
+		lastDate = -1
+		outputTweets = []
+		dateCollection = []
+
+		for i in range(len(df)):
+			date  = StrToDate(df["Date"][i])
+
+			if lastDate == -1:
+				lastDate = date
+
+			if lastDate != date and len(dateCollection) > 0:
+				outputTweets.append([lastDate, mean(dateCollection), len(dateCollection)])
+				lastDate = date
+				dateCollection = []
+
+			dateCollection.append(df["Sentiment"][i])
+
+
+			if i % 5000 == 0:
+				print(companyData["StockName"] + " Remove Duplicate dates: " + str(i) + " Taken: " + str(time.time() - startMark))
+
+		compressed = pd.DataFrame(outputTweets, columns=["Date", "avgSentiment", "countTweets" ])
+
+		# to save to csv as a cache
+		cachePath = os.path.join(folder, "tweets_" + companyData["StockName"] + "_Compressed.csv")
+		compressed.to_csv(cachePath)
 
 	else:
 		# build the query
@@ -130,7 +143,8 @@ if __name__ == "__main__":
 			startTime = str(2012 + i) + "-05-01"
 			endTime = str(2013 + i) + "-05-01"
 			folder = "CachedTweets_"+str(2012 + i)+"_"+str(2013 + i)
+			folder = os.path.join("Large_TweetCache", folder)
 			thread = Thread(target = GetTweetsFromAboutCompany, args = (companyData, startTime, endTime, folder,))
 
 			thread.start()
-
+			# GetTweetsFromAboutCompany(companyData, startTime, endTime, folder)
