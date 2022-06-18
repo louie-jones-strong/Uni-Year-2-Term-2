@@ -21,5 +21,5 @@ for companyData in companiesToReview:
 
 		joinedDf = pd.concat(yearsData, axis=0)
 
-		cachePath = os.path.join("CachedTweets_Large", "tweets_" + companyData["StockName"] + "_Large.csv")
+		cachePath = os.path.join("CachedTweets_Large", "tweets_" + companyData["StockName"] + ".csv")
 		joinedDf.to_csv(cachePath)
