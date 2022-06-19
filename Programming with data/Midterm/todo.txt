@@ -7,3 +7,8 @@ but you can do more from the public
 create requirements.txt
 
 show word cloud???
+
+
+refrances
+
+what sources did i find useful
