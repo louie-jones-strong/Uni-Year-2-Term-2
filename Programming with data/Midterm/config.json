@@ -10,11 +10,6 @@
 		"TwitterHashTags":[
 			"#telsa",
 			"#elonmusk"
-		],
-		"TwitterPhrases":[
-			"telsa",
-			"electric cars",
-			"elon musk"
 		]
 	},
 	{
@@ -34,12 +29,6 @@
 			"#iphone",
 			"#Mac",
 			"#AirPods"
-		],
-		"TwitterPhrases":[
-			"Apple",
-			"iphone",
-			"mac",
-			"AirPods"
 		]
 	},
 	{
@@ -60,11 +49,6 @@
 			"#Microsoft",
 			"#Windows",
 			"#Azure"
-		],
-		"TwitterPhrases":[
-			"Microsoft",
-			"Windows",
-			"Azure"
 		]
 	},
 	{
@@ -95,11 +79,6 @@
 			"#JeffBezos",
 			"#aws",
 			"#Prime"
-		],
-		"TwitterPhrases":[
-			"Amazon",
-			"aws",
-			"Prime"
 		]
 	},
 	{
@@ -120,12 +99,6 @@
 			"#Google",
 			"#Stadia",
 			"#YouTube"
-		],
-		"TwitterPhrases":[
-			"Google",
-			"Stadia",
-			"pixel phone",
-			"YouTube"
 		]
 	},
 	{
@@ -143,12 +116,6 @@
 			"#facebook",
 			"#Oculus",
 			"#Zuckerberg"
-		],
-		"TwitterPhrases":[
-			"Meta",
-			"facebook",
-			"Oculus",
-			"Mark Zuckerberg"
 		]
 	},
 	{
@@ -164,9 +131,6 @@
 		],
 		"TwitterHashTags":[
 			"#Twitter"
-		],
-		"TwitterPhrases":[
-			"Twitter"
 		]
 	}
 ]
