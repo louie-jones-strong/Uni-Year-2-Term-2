@@ -4,12 +4,8 @@
 2.2.1 Doesn't make it easier for anyone to do what?
 And your analysis won't add sufficient information or cross-correlation to be an ethical concern.
 
-2.3 You could add links:
-<twitter API>
-https://github.com/JustAnotherArchivist/snscrape
-
-2.? Code cell "# Import libraries and modules" 
-    Does Jupiter Notebook allow you to give a heading for this? Or are inline comments sufficient?
+3.2 code cell 2  "#what users do we care about"
+    is "users" the correct terminology? companies? stocks?
 
 3.0 A big limitation is that you are showing correlations rather than causal links.
 
@@ -20,17 +16,23 @@ https://github.com/JustAnotherArchivist/snscrape
     TwitterJumpTriggerRatio = 1.25
     TwitterJumpTriggerPercentage = 7.5
 
-3.2 code cell 2  "#what users do we care about"
-    is "users" the correct terminology? companies? stocks?
+2.3 You could add links:
+<twitter API>
+https://github.com/JustAnotherArchivist/snscrape
 
 outputs just before 4.0
     A title and / or description would be helpful
     Does you username in the console output breach any submission rules?
 
-4.2 add a link?
-https://github.com/cjhutto/vaderSentiment
-
 Add a markdown to identify which word cloud is which.
+
+2.? Code cell "# Import libraries and modules"
+    Does Jupiter Notebook allow you to give a heading for this? Or are inline comments sufficient?
+
+
+
+
+
 
 The markdowns below graphs to describe them is helpful. More of these would be nice.
 

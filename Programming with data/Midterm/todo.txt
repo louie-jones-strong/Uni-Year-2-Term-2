@@ -6,9 +6,16 @@ Expand abbreviations on first use.
 Resolve bloo squigles for spelling and grammar.
 Consistent formatting
     indents
+Commas after "however".
+
+
+
+
+
+
 Comment to describe each function (but I agree most have self documenting names)
 Review(and comment if required) abbreviated variable names
     e.g. df
+
 Check (and maybe list if all are legit?) license requirements for used libraries
     e.g vader : fully open-sourced under the [MIT License]
-Commas after "however".
