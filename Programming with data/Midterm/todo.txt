@@ -1,8 +1,20 @@
-show taht i have checked the data is correct
+show that i have checked the data is correct
 
-explain that you cannot predit from just company's tweets
+explain that you cannot predict from just company's tweets
 but you can do more from the public
 
 
 show word cloud???
 
+Full stop at the end of each sentence.
+Capitalisation of company names.
+Expand abbreviations on first use.
+Resolve bloo squigles for spelling and grammar.
+Consistent formatting
+    indents
+Comment to describe each function (but I agree most have self documenting names)
+Review(and comment if required) abbreviated variable names
+    e.g. df
+Check (and maybe list if all are legit?) license requirements for used libraries
+    e.g vader : fully open-sourced under the [MIT License]
+Commas after "however".
