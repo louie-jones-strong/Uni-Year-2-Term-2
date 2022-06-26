@@ -1,10 +1,4 @@
-show that i have checked the data is correct
 
-explain that you cannot predict from just company's tweets
-but you can do more from the public
-
-
-show word cloud???
 
 Full stop at the end of each sentence.
 Capitalisation of company names.
