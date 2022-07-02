@@ -7,6 +7,11 @@ NumberOfConfetti = 200;
 
 ConfettiPieces = []
 
+ShowGrid = true;
+ShowConfetti = true;
+
+CameraElapsedSecs = 0;
+WaveElapsedSecs = 0;
 
 function setup()
 {
@@ -24,15 +29,31 @@ function draw()
 {
 	background(125);
 
+	let deltaTimeSeconds = deltaTime / 1000;
+	let cameraSpeed = document.getElementById("camSpeedSlider").value;
 
+
+	let waveSpeed = document.getElementById("waveSpeedSlider").value;
+	WaveElapsedSecs += deltaTimeSeconds * waveSpeed;
+
+	BoxSize = document.getElementById("boxSizeSlider").value;
+
+
+	CameraElapsedSecs += deltaTimeSeconds * cameraSpeed;
 	// make the camera orbit the center of the world
-	let camX = cos(frameCount) * 800;
-	let camY = sin(frameCount) * 800;
+	let camX = cos(CameraElapsedSecs) * 800;
+	let camY = sin(CameraElapsedSecs) * 800;
 	camera(camX, -600, camY, 0, 0, 0, 0, 1, 0);
 
-	DrawGrid();
+	if (ShowGrid)
+	{
+		DrawGrid();
+	}
 
-	DrawConfetti();
+	if (ShowConfetti)
+	{
+		DrawConfetti();
+	}
 }
 
 
@@ -57,7 +78,7 @@ function DrawGrid()
 
 			// get the box's point in the wave
 			let distance = dist(x, z, 0, 0);
-			let length = map(sin(distance + frameCount), -1, 1, LengthMin, LengthMax);
+			let length = map(sin(distance + WaveElapsedSecs), -1, 1, LengthMin, LengthMax);
 
 			box(BoxSize, length, BoxSize);
 			pop();
@@ -126,3 +147,6 @@ class ConfettiPiece
 		pop();
 	}
 }
+
+document.getElementById("toggleGrid").onclick = function(){ShowGrid = !ShowGrid;};
+document.getElementById("toggleConfetti").onclick = function(){ShowConfetti = !ShowConfetti;};
