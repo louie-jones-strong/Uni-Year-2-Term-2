@@ -1,12 +1,4 @@
-The template code provides the general outline for how this filter will work.
-We’ll call this filter the early bird filter because it looks a bit like the one by Instagram.
-Notice how the filter itself is a function called earlyBirdFilter() which takes an image as an input and returns an image as output.
-When you run the code the first time you should see the original picture of the boy with the Husky on the left and the rest of the grey canvas on the right.
-As you work through the code you’ll be uncommenting each line in the earlyBirdFilter() function and implementing the sub-filters that make it up.
-Filters in social media apps are often combinations of simpler filters we have already examined.
 
-Important: Please use the image we provided in order for us to be able to compare results and be able to mark you.
-Let’s get to it!
 
 Step 1: Inside earlyBirdFilter() function, uncomment the line that calls the sepiaFilter().
 Implement the sepiaFilter() function.
@@ -25,6 +17,10 @@ Remember to make sepiaFilter() return the resulting image.
 If you’ve done things right you should be seeing the image below.
 
 
+
+
+
+
 Step 2: Adding dark corners, also known as vignetting, will give our image a slightly older feel.
 Uncomment the next line in the earlyBirdFilter() that calls the darkCorners() function and implement the corresponding filter.
 The basis of this filter is a simple filter like the one above.
@@ -37,12 +33,18 @@ from 300 to 450 scale by 1 to 0.4 depending on distance
 
 450 and above scale by a value between 0.4 and 0
 
-Hint: You’ll need to use the map() and constrain() functions in order to remap the distance of each pixel to a new variable called dynLum
+Hint: You’ll need to use the map() and constrain() functions
+in order to remap the distance of each pixel to a new variable called dynLum
 (for dynamic luminance) which will hold the scaling that will be required for each channel.
 If you’ve done things right you should see an image like the one below.
 
 
-Step 3: Uncomment the next line in the earlyBirdFilter() that calls the radialBlurFilter() function and implement the corresponding filter.
+
+
+
+
+Step 3: Uncomment the next line in the earlyBirdFilter() that calls the radialBlurFilter() function
+and implement the corresponding filter.
 The basis of this filter is the blur filter we saw in class.
 However, this time we’ll create a radial filter that blurs more as you move away from its centre.
 We’ll also use a bigger kernel, as you have seen at the top of the template.
@@ -73,6 +75,10 @@ Click on the part of the colour image you want to place at the centre of the rad
 If you have done things right you should see something like the image below.
 I clicked on the face of the boy in the colour image.
 Notice the radial blur centered around there.
+
+
+
+
 
 
 Step 4: The final touch: Let’s add a border around the image.
