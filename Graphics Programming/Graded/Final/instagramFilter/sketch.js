@@ -1,16 +1,16 @@
 // Image of Husky Creative commons from Wikipedia:
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
 var imgIn;
-var matrix = [
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
-	[1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64]
-];
+
+var UseInvert = false;
+var UseSharpen = false;
+var UseSepia = true;
+var UseGreyScale = false;
+var UseVignette = true;
+var UseBorder = true;
+
+
+
 /////////////////////////////////////////////////////////////////
 function preload()
 {
@@ -37,12 +37,124 @@ function mousePressed()
 /////////////////////////////////////////////////////////////////
 function earlyBirdFilter(img)
 {
-	var resultImg = createImage(imgIn.width, imgIn.height);
-	resultImg = sepiaFilter(imgIn);
-	resultImg = darkCorners(resultImg);
-	resultImg = radialBlurFilter(resultImg);
-	resultImg = borderFilter(resultImg)
-	return resultImg;
+	if (UseInvert)
+	{
+		img = invertFilter(img)
+	}
+
+	if (UseSharpen)
+	{
+		img = sharpen(img);
+	}
+
+	if (UseSepia)
+	{
+		img = sepiaFilter(img);
+	}
+
+	if (UseGreyScale)
+	{
+		img = greyscaleFilter(img);
+	}
+
+
+	if (UseVignette)
+	{
+		img = darkCorners(img);
+	}
+
+
+	img = radialBlurFilter(img);
+
+	if (UseBorder)
+	{
+		img = borderFilter(img)
+	}
+	return img;
+}
+
+function sharpen(img)
+{
+	var imgOut = createImage(img.width, img.height);
+	imgOut.loadPixels();
+	img.loadPixels();
+
+	let matrix = [
+		[-1, -1, -1],
+		[-1, 9, -1],
+		[-1, -1, -1]
+	];
+
+	// read every pixel
+	for (var x = 0; x < imgOut.width; x++)
+	{
+		for (var y = 0; y < imgOut.height; y++)
+		{
+			var index = (x + y * imgOut.width) * 4;
+
+			var c = convolution(x, y, matrix, img);
+
+			imgOut.pixels[index + 0] = c[0];
+			imgOut.pixels[index + 1] = c[1];
+			imgOut.pixels[index + 2] = c[2];
+
+			imgOut.pixels[index + 3] = 255;
+		}
+	}
+	imgOut.updatePixels();
+	return imgOut;
+}
+
+function invertFilter(img)
+{
+	imgOut = createImage(img.width, img.height);
+
+	imgOut.loadPixels();
+	img.loadPixels();
+
+	for (var x = 0; x < imgOut.width; x++) {
+		for (var y = 0; y < imgOut.height; y++) {
+
+			var index = (x + y * imgOut.width) * 4;
+
+			var r = 255 - img.pixels[index + 0];
+			var g = 255 - img.pixels[index + 1];
+			var b = 255 - img.pixels[index + 2];
+
+			imgOut.pixels[index + 0] = r;
+			imgOut.pixels[index + 1] = g;
+			imgOut.pixels[index + 2] = b;
+			imgOut.pixels[index + 3] = 255;
+		}
+	}
+	imgOut.updatePixels();
+	return imgOut;
+}
+
+function greyscaleFilter(img)
+{
+	var imgOut = createImage(img.width, img.height);
+	imgOut.loadPixels();
+	img.loadPixels();
+
+	for (x = 0; x < imgOut.width; x++) {
+		for (y = 0; y < imgOut.height; y++) {
+
+			var index = (x + y * imgOut.width) * 4;
+
+			var r = img.pixels[index + 0];
+			var g = img.pixels[index + 1];
+			var b = img.pixels[index + 2];
+
+			// var gray = (r + g + b) / 3; // simple
+			var gray = r * 0.299 + g * 0.587 + b * 0.114; // LUMA ratios
+
+			imgOut.pixels[index+0]= imgOut.pixels[index+1] = imgOut.pixels[index+2] = gray;
+			imgOut.pixels[index+3]= 255;
+		}
+	}
+	imgOut.updatePixels();
+	return imgOut;
 }
 
 function sepiaFilter(img)
@@ -116,11 +228,33 @@ function darkCorners(img)
 
 function radialBlurFilter(img)
 {
+	let blurSize = document.getElementById("radialBlurSizeSlider").value;
+
+	if (blurSize <= 0)
+	{
+		return img;
+	}
+
+
 	var imgOut = createImage(img.width, img.height);
 	imgOut.loadPixels();
 	img.loadPixels();
 
 	let mousePos = createVector(mouseX, mouseY);
+
+	let matrixCellValue = 1 / (blurSize*blurSize);
+
+	let matrix = [];
+	for (let mX = 0; mX < blurSize; mX++)
+	{
+		let row = [];
+		for (let mY = 0; mY < blurSize; mY++)
+		{
+			row.push(matrixCellValue);
+
+		}
+		matrix.push(row);
+	}
 
 	// read every pixel
 	for (var x = 0; x < imgOut.width; x++)
@@ -196,3 +330,13 @@ function borderFilter(img)
 
 	return buffer;
 }
+
+
+
+document.getElementById("toggleInvert").onclick = function(){UseInvert = !UseInvert; loop();};
+document.getElementById("toggleSharpen").onclick = function(){UseSharpen = !UseSharpen; loop();};
+document.getElementById("toggleSepia").onclick = function(){UseSepia = !UseSepia; loop();};
+document.getElementById("toggleGreyScale").onclick = function(){UseGreyScale = !UseGreyScale; loop();};
+document.getElementById("toggleVignette").onclick = function(){UseVignette = !UseVignette; loop();};
+document.getElementById("toggleBorder").onclick = function(){UseBorder = !UseBorder; loop();};
+document.getElementById("radialBlurSizeSlider").onchange = function(){loop();};
