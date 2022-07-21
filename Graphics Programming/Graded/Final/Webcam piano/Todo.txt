@@ -28,9 +28,14 @@ This won’t make for a very good webcam piano.
 We’ll fix that next.
 
 
+
+
+
+
 Step 4: If your camera is anything like mine you should notice that there’s a lot of activation of the “notes”
 of the piano even when we don’t quite intend it.
 Playing with the threshold can’t really fix it.
+
 Let’s address this by running the blur filter on the currImg at the top of the draw() function,
 right after we have copied the contents of the video into it.
 See the filter documentation here.
@@ -41,10 +46,17 @@ but the sketch will be running very slowly.
 We’ll fix that next.
 
 
+
 Step 5: Right before using the blur filter on the currImg, use the resize command to scale it down to a quarter of the size it was.
 Documentation here.
 Make sure you do the same for the diffImg a couple of lines later or things will break!
 The sketch should now be running quite fast (>40fps) and your sketch should look like the animation at the top of this page.
+
+
+
+
+
+
 
 Step 6:Extend the sketch.
 This is your last graded assignment and is your chance to make use of techniques and knowledge learnt throughout the course.
