@@ -1,6 +1,3 @@
-// ********************************
-// BACKGROUND SUBTRACTION EXAMPLE *
-// ********************************
 var video;
 var prevImg;
 var diffImg;
@@ -9,7 +6,8 @@ var thresholdSlider;
 var threshold;
 var grid;
 
-function setup() {
+function setup()
+{
 	createCanvas(640 * 2, 480);
 	pixelDensity(1);
 	video = createCapture(VIDEO);
@@ -18,11 +16,10 @@ function setup() {
 	thresholdSlider = createSlider(0, 255, 50);
 	thresholdSlider.position(20, 20);
 	grid = new Grid(640,480);
-
-
 }
 
-function draw() {
+function draw()
+{
 	background(0);
 	image(video, 0, 0);
 
@@ -34,33 +31,42 @@ function draw() {
 	// blur the current image to reduce the affect of the noise
 	currImg.filter(BLUR, 3);
 
-	diffImg = createImage(video.width * resizeFactor, video.height * resizeFactor);
+	diffImg = createImage(currImg.width, currImg.height);
 	diffImg.loadPixels();
 
 	threshold = thresholdSlider.value();
+	// square the threshold so we can use the distSquared,
+	// this means the code can run faster
+	let thresholdSquared = threshold * threshold;
 
-	if (typeof prevImg !== 'undefined') {
+	if (typeof prevImg !== 'undefined')
+	{
 		prevImg.loadPixels();
 		currImg.loadPixels();
-		for (var x = 0; x < currImg.width; x += 1) {
-			for (var y = 0; y < currImg.height; y += 1) {
+		for (var x = 0; x < currImg.width; x += 1)
+		{
+			for (var y = 0; y < currImg.height; y += 1)
+			{
 				var index = (x + (y * currImg.width)) * 4;
-				var redSource = currImg.pixels[index + 0];
-				var greenSource = currImg.pixels[index + 1];
-				var blueSource = currImg.pixels[index + 2];
+				var currR = currImg.pixels[index + 0];
+				var currG = currImg.pixels[index + 1];
+				var currB = currImg.pixels[index + 2];
 
-				var redBack = prevImg.pixels[index + 0];
-				var greenBack = prevImg.pixels[index + 1];
-				var blueBack = prevImg.pixels[index + 2];
+				var prevR = prevImg.pixels[index + 0];
+				var prevG = prevImg.pixels[index + 1];
+				var prevB = prevImg.pixels[index + 2];
 
-				var d = dist(redSource, greenSource, blueSource, redBack, greenBack, blueBack);
+				var d = distSquared(currR, currG, currB, prevR, prevG, prevB);
 
-				if (d > threshold) {
+				if (d < thresholdSquared)
+				{
 					diffImg.pixels[index + 0] = 0;
 					diffImg.pixels[index + 1] = 0;
 					diffImg.pixels[index + 2] = 0;
 					diffImg.pixels[index + 3] = 255;
-				} else {
+				}
+				else
+				{
 					diffImg.pixels[index + 0] = 255;
 					diffImg.pixels[index + 1] = 255;
 					diffImg.pixels[index + 2] = 255;
@@ -70,7 +76,8 @@ function draw() {
 		}
 	}
 	diffImg.updatePixels();
-	image(diffImg, 640, 0);
+	// resize diff image back to full size to make it easier to debug
+	image(diffImg, 640, 0, video.width, video.height);
 
 	noFill();
 	stroke(255);
@@ -84,7 +91,8 @@ function draw() {
 
 // faster method for calculating color similarity which does not calculate root.
 // Only needed if dist() runs slow
-function distSquared(x1, y1, z1, x2, y2, z2){
+function distSquared(x1, y1, z1, x2, y2, z2)
+{
 	var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
 	return d;
 }
