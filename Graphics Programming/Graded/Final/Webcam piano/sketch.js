@@ -3,7 +3,6 @@ var prevImg;
 var diffImg;
 var currImg;
 var thresholdSlider;
-var threshold;
 var grid;
 
 function setup()
@@ -16,67 +15,45 @@ function setup()
 	thresholdSlider = createSlider(0, 255, 50);
 	thresholdSlider.position(20, 20);
 	grid = new Grid(640,480);
+
+	background(0);
 }
 
 function draw()
 {
-	background(0);
-	image(video, 0, 0);
-
 	currImg = createImage(video.width, video.height);
 	currImg.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
 
-	var resizeFactor = 0.25
-	currImg.resize(video.width * resizeFactor, video.height * resizeFactor);
+	if (typeof currImg === 'undefined')
+	{
+		return;
+	}
+
+
+
+	// Draw current image at full scale
+	background(0);
+	image(currImg, 0, 0);
+
+	// reduce the resolution of the image to speed up processing
+	currImg.resize(video.width / 4, video.height / 4);
+
 	// blur the current image to reduce the affect of the noise
 	currImg.filter(BLUR, 3);
 
-	diffImg = createImage(currImg.width, currImg.height);
-	diffImg.loadPixels();
-
-	threshold = thresholdSlider.value();
-	// square the threshold so we can use the distSquared,
-	// this means the code can run faster
-	let thresholdSquared = threshold * threshold;
-
-	if (typeof prevImg !== 'undefined')
+	// handle prev img being undefined by setting to the same as current
+	// this will only happen for the first frame
+	if (typeof prevImg === 'undefined')
 	{
-		prevImg.loadPixels();
-		currImg.loadPixels();
-		for (var x = 0; x < currImg.width; x += 1)
-		{
-			for (var y = 0; y < currImg.height; y += 1)
-			{
-				var index = (x + (y * currImg.width)) * 4;
-				var currR = currImg.pixels[index + 0];
-				var currG = currImg.pixels[index + 1];
-				var currB = currImg.pixels[index + 2];
-
-				var prevR = prevImg.pixels[index + 0];
-				var prevG = prevImg.pixels[index + 1];
-				var prevB = prevImg.pixels[index + 2];
-
-				var d = distSquared(currR, currG, currB, prevR, prevG, prevB);
-
-				if (d < thresholdSquared)
-				{
-					diffImg.pixels[index + 0] = 0;
-					diffImg.pixels[index + 1] = 0;
-					diffImg.pixels[index + 2] = 0;
-					diffImg.pixels[index + 3] = 255;
-				}
-				else
-				{
-					diffImg.pixels[index + 0] = 255;
-					diffImg.pixels[index + 1] = 255;
-					diffImg.pixels[index + 2] = 255;
-					diffImg.pixels[index + 3] = 255;
-				}
-			}
-		}
+		prevImg = createImage(currImg.width, currImg.height);
+		prevImg.copy(currImg, 0, 0, currImg.width, currImg.height, 0, 0, currImg.width, currImg.height);
 	}
-	diffImg.updatePixels();
-	// resize diff image back to full size to make it easier to debug
+
+	let threshold = thresholdSlider.value();
+
+	diffImg = CalculateImgDelta(currImg, prevImg, threshold);
+
+	// resize diff image to full size to make it easier to debug
 	image(diffImg, 640, 0, video.width, video.height);
 
 	noFill();
@@ -87,6 +64,52 @@ function draw()
 	prevImg.copy(currImg, 0, 0, currImg.width, currImg.height, 0, 0, currImg.width, currImg.height);
 
 	grid.run(diffImg);
+}
+
+function CalculateImgDelta(currImg, prevImg, threshold)
+{
+	// square the threshold so we can use the distSquared,
+	// this means the code can run faster
+	let thresholdSquared = threshold * threshold;
+
+	let deltaImg = createImage(currImg.width, currImg.height);
+	deltaImg.loadPixels();
+
+	prevImg.loadPixels();
+	currImg.loadPixels();
+	for (var x = 0; x < currImg.width; x += 1)
+	{
+		for (var y = 0; y < currImg.height; y += 1)
+		{
+			var index = (x + (y * currImg.width)) * 4;
+			var currR = currImg.pixels[index + 0];
+			var currG = currImg.pixels[index + 1];
+			var currB = currImg.pixels[index + 2];
+
+			var prevR = prevImg.pixels[index + 0];
+			var prevG = prevImg.pixels[index + 1];
+			var prevB = prevImg.pixels[index + 2];
+
+			var d = distSquared(currR, currG, currB, prevR, prevG, prevB);
+
+			if (d < thresholdSquared)
+			{
+				deltaImg.pixels[index + 0] = 0;
+				deltaImg.pixels[index + 1] = 0;
+				deltaImg.pixels[index + 2] = 0;
+				deltaImg.pixels[index + 3] = 255;
+			}
+			else
+			{
+				deltaImg.pixels[index + 0] = 255;
+				deltaImg.pixels[index + 1] = 255;
+				deltaImg.pixels[index + 2] = 255;
+				deltaImg.pixels[index + 3] = 255;
+			}
+		}
+	}
+	deltaImg.updatePixels();
+	return deltaImg;
 }
 
 // faster method for calculating color similarity which does not calculate root.
