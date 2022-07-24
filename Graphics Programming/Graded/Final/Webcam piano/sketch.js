@@ -2,8 +2,12 @@ var video;
 var prevImg;
 var diffImg;
 var currImg;
-var thresholdSlider;
 var grid;
+var flip = true;
+
+var flow;
+var flowStep = 4;
+var scaleFactor = 4;
 
 function setup()
 {
@@ -12,9 +16,8 @@ function setup()
 	video = createCapture(VIDEO);
 	video.hide();
 
-	thresholdSlider = createSlider(0, 255, 50);
-	thresholdSlider.position(20, 20);
 	grid = new Grid(640,480);
+    flow = new FlowCalculator(flowStep);
 
 	background(0);
 }
@@ -23,7 +26,11 @@ function draw()
 {
 	currImg = createImage(video.width, video.height);
 	currImg.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
-	currImg = FlipImage(currImg);
+
+	if (flip)
+	{
+		currImg = FlipImage(currImg);
+	}
 
 	if (typeof currImg === 'undefined')
 	{
@@ -35,7 +42,7 @@ function draw()
 	image(currImg, 0, 0);
 
 	// reduce the resolution of the image to speed up processing
-	currImg.resize(video.width / 4, video.height / 4);
+	currImg.resize(video.width / scaleFactor, video.height / scaleFactor);
 
 	// blur the current image to reduce the affect of the noise
 	currImg.filter(BLUR, 3);
@@ -44,18 +51,17 @@ function draw()
 	// this will only happen for the first frame
 	if (typeof prevImg !== 'undefined')
 	{
-
-		let threshold = thresholdSlider.value();
+		let threshold = document.getElementById("thresholdSlider").value;
 
 		diffImg = CalculateImgDelta(currImg, prevImg, threshold);
 
 		// resize diff image to full size to make it easier to debug
 		image(diffImg, 640, 0, video.width, video.height);
-		noFill();
-		stroke(255);
-		text(threshold, 160, 35);
 
 		grid.run(diffImg);
+
+		flow.calculate(prevImg.pixels, currImg.pixels, currImg.width, currImg.height);
+		DrawFlow(scaleFactor, video.width)
 	}
 
 	// copy current image into prevImg
@@ -109,6 +115,29 @@ function CalculateImgDelta(currImg, prevImg, threshold)
 	return deltaImg;
 }
 
+function DrawFlow(scale, xOffset)
+{
+	let threshold = 5;
+	if (flow.flow && flow.flow.u != 0 && flow.flow.v != 0) {
+		for (var i=0; i<flow.flow.zones.length; i++){
+			zone = flow.flow.zones[i];
+
+			if (abs(zone.u)>threshold || abs(zone.v)>threshold){ // only if movement is significant
+				stroke(map(zone.u, -flowStep, +flowStep, 0, 255),
+					   map(zone.v, -flowStep, +flowStep, 0, 255), 128);
+
+				let x = zone.x*scale + xOffset;
+				let y = zone.y*scale;
+				line(x, y, x + zone.u*scale, y + zone.v*scale);
+			}
+		}
+
+		strokeWeight(2);
+		stroke(255);
+		translate(width/2, height/2);
+	}
+}
+
 // faster method for calculating color similarity which does not calculate root.
 // Only needed if dist() runs slow
 function distSquared(x1, y1, z1, x2, y2, z2)
@@ -139,3 +168,6 @@ function FlipImage(img)
 	flippedImg.updatePixels();
 	return flippedImg;
 }
+
+
+document.getElementById("toggleFlip").onclick = function(){flip = !flip;};
