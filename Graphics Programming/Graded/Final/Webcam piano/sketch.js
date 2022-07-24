@@ -39,7 +39,7 @@ function draw()
 	// blur the current image to reduce the affect of the noise
 	currImg.filter(BLUR, 3);
 
-	// handle prev img being undefined by setting to the same as current
+	// handle prev img being undefined
 	// this will only happen for the first frame
 	if (typeof prevImg !== 'undefined')
 	{
