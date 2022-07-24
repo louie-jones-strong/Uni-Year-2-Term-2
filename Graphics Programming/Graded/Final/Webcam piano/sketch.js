@@ -23,6 +23,7 @@ function draw()
 {
 	currImg = createImage(video.width, video.height);
 	currImg.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
+	currImg = FlipImage(currImg);
 
 	if (typeof currImg === 'undefined')
 	{
@@ -114,4 +115,27 @@ function distSquared(x1, y1, z1, x2, y2, z2)
 {
 	var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
 	return d;
+}
+
+function FlipImage(img)
+{
+	let flippedImg = createImage(img.width, img.height);
+	flippedImg.loadPixels();
+
+	img.loadPixels();
+
+	for (var x = 0; x < img.width; x += 1)
+	{
+		for (var y = 0; y < img.height; y += 1)
+		{
+			var index = (x + (y * img.width)) * 4;
+			var flippedIndex = ((img.width-x) + (y * img.width)) * 4;
+			flippedImg.pixels[flippedIndex + 0] = img.pixels[index + 0];
+			flippedImg.pixels[flippedIndex + 1] = img.pixels[index + 1];
+			flippedImg.pixels[flippedIndex + 2] = img.pixels[index + 2];
+			flippedImg.pixels[flippedIndex + 3] = img.pixels[index + 3];
+		}
+	}
+	flippedImg.updatePixels();
+	return flippedImg;
 }
