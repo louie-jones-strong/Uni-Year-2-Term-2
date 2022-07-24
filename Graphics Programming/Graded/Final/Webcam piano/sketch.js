@@ -29,8 +29,6 @@ function draw()
 		return;
 	}
 
-
-
 	// Draw current image at full scale
 	background(0);
 	image(currImg, 0, 0);
@@ -43,27 +41,25 @@ function draw()
 
 	// handle prev img being undefined by setting to the same as current
 	// this will only happen for the first frame
-	if (typeof prevImg === 'undefined')
+	if (typeof prevImg !== 'undefined')
 	{
-		prevImg = createImage(currImg.width, currImg.height);
-		prevImg.copy(currImg, 0, 0, currImg.width, currImg.height, 0, 0, currImg.width, currImg.height);
+
+		let threshold = thresholdSlider.value();
+
+		diffImg = CalculateImgDelta(currImg, prevImg, threshold);
+
+		// resize diff image to full size to make it easier to debug
+		image(diffImg, 640, 0, video.width, video.height);
+		noFill();
+		stroke(255);
+		text(threshold, 160, 35);
+
+		grid.run(diffImg);
 	}
 
-	let threshold = thresholdSlider.value();
-
-	diffImg = CalculateImgDelta(currImg, prevImg, threshold);
-
-	// resize diff image to full size to make it easier to debug
-	image(diffImg, 640, 0, video.width, video.height);
-
-	noFill();
-	stroke(255);
-	text(threshold, 160, 35);
-
+	// copy current image into prevImg
 	prevImg = createImage(currImg.width, currImg.height);
 	prevImg.copy(currImg, 0, 0, currImg.width, currImg.height, 0, 0, currImg.width, currImg.height);
-
-	grid.run(diffImg);
 }
 
 function CalculateImgDelta(currImg, prevImg, threshold)
