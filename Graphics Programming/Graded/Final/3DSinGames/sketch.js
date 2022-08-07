@@ -29,9 +29,6 @@ function draw()
 {
 	background(125);
 
-	let locX = mouseX - width / 2;
-	let locY = mouseY - height / 2;
-
 	// lights
 	ambientLight(25);
 	pointLight(255, 255, 255, 0, 0, LengthMax / 2);

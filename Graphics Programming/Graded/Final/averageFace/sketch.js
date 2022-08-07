@@ -1,6 +1,7 @@
 var imgs = [];
 var avgImg;
 var numOfImages = 30;
+var selectedIndex = 0;
 
 //////////////////////////////////////////////////////////
 function preload()
@@ -15,32 +16,54 @@ function preload()
 //////////////////////////////////////////////////////////
 function setup()
 {
-	createCanvas(imgs[0].width*2, imgs[0].height*2);
+	createCanvas(imgs[0].width*2, imgs[0].height);
 	pixelDensity(1);
 
 	avgImg = createGraphics(imgs[0].width , imgs[0].height);
+
+	SelectRandomImg();
 }
 
+function SelectRandomImg()
+{
+	selectedIndex = Math.trunc(random(0, imgs.length-1));
+}
+
+
+function keyPressed()
+{
+	SelectRandomImg();
+	loop();
+}
+
+function mouseMoved()
+{
+	loop();
+}
 
 //////////////////////////////////////////////////////////
 function draw()
 {
+
 	background(125);
-	image(imgs[0], 0, 0)
+	let selectedImg = imgs[selectedIndex];
+	image(selectedImg, 0, 0)
 
 	// load pixels
 	for (let i = 0; i < imgs.length; i++)
 	{
 		imgs[i].loadPixels();
 	}
+	selectedImg.loadPixels();
 	avgImg.loadPixels();
 
+	let fade = mouseX / width;
 	// find avg
 	for (let x = 0; x < imgs[0].width; x++)
 	{
 		for (let y = 0; y < imgs[0].height; y++)
 		{
-			let avgColor = GetAvgColor(imgs, x, y);
+			let avgColor = GetAvgColor(selectedImg, imgs, x, y, fade);
 			SetPixel(avgImg, x, y, avgColor);
 		}
 	}
@@ -54,7 +77,7 @@ function draw()
 }
 
 
-function GetAvgColor(imgs, x, y)
+function GetAvgColor(selectedImg, imgs, x, y, fade)
 {
 	let sumR = 0;
 	let sumG = 0;
@@ -71,6 +94,14 @@ function GetAvgColor(imgs, x, y)
 	sumR /= imgs.length;
 	sumG /= imgs.length;
 	sumB /= imgs.length;
+
+	let pixelColor = GetPixel(selectedImg, x, y);
+	let selectedR = pixelColor[0];
+	let selectedG = pixelColor[1];
+	let selectedB = pixelColor[2];
+	sumR = lerp(selectedR, sumR, fade);
+	sumG = lerp(selectedG, sumG, fade);
+	sumB = lerp(selectedB, sumB, fade);
 
 	return color(sumR, sumG, sumB, 255)
 }
