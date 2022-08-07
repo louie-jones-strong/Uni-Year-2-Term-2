@@ -40,6 +40,11 @@ Step 6: Let’s animate the confetti! Increment the y-coordinate of the specific
 At the bottom of the for loop add an if statement to check if the y-coordinate of the confetti is greater than 0, that is, if it has reached the middle of the coordinate system.
 If it has, set the specific vector’s y component to -800, so that the confetti starts at the top of our world. Leave the other two components intact.
 
+
+
+
+
+
 Step 7: Make the sketch your own by implementing two of the ideas for further development.
 If you choose to implement different materials please leave the code for step 2 (material and stroke weight) commented out in your code submission.
 Keep performance and frame rate in mind for all code implementations. Points given to ambitious learners.

@@ -29,6 +29,19 @@ function draw()
 {
 	background(125);
 
+	let locX = mouseX - width / 2;
+	let locY = mouseY - height / 2;
+
+	// lights
+	ambientLight(25);
+	pointLight(255, 255, 255, 0, 0, LengthMax / 2);
+
+	directionalLight(255, 0, 0, 1, 0, 0);
+
+	directionalLight(0, 255, 0, 0, 0, 1);
+
+	directionalLight(0, 0, 255, -1, 0, 0);
+
 	let deltaTimeSeconds = deltaTime / 1000;
 	let cameraSpeed = document.getElementById("camSpeedSlider").value;
 
@@ -60,7 +73,8 @@ function draw()
 function DrawGrid()
 {
 	// setup material for grid
-	normalMaterial();
+	// normalMaterial();
+	ambientMaterial(255);
 	stroke(0);
 	strokeWeight(2);
 
