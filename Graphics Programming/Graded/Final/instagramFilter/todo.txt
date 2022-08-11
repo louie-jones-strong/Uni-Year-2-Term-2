@@ -99,10 +99,13 @@ Draw another rectangle now, without rounded corners, in order to get rid of the 
 
 
 
- Step 5: Can you further develop the sketch by implementing some logic to switch between different filter effects on the second image?
-  On key press change between a set number of different “filters”, perhaps try to combine different kernels (stored in the variable called “matrix”)
+ Step 5: Can you further develop the sketch by implementing some logic to switch between different filter effects on
+ the second image?
+  On key press change between a set number of different “filters”, perhaps try to combine different kernels
+  (stored in the variable called “matrix”)
    with different pixel color effects like the sepia color effect, for example grey scale is another effect.
- Make sure that the first effect visible when the sketch is loaded is the sepia effect with the radial blur and dark corners as per the above instructions,
+ Make sure that the first effect visible when the sketch is loaded is the sepia effect with the radial blur and dark
+ corners as per the above instructions,
  do not change the logic of applying the radial effect on mouse pressed.
  Beneath the images include written instructions about which key or keys to press.
 

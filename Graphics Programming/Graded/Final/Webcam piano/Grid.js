@@ -1,73 +1,81 @@
 class Grid
 {
 	/////////////////////////////////
-	constructor(_w, _h)
+	constructor(width, height)
 	{
-		this.gridWidth = _w;
-		this.gridHeight = _h;
-		this.cellSize = 40;
-		this.notes = []
+		this.GridWidth = width;
+		this.GridHeight = height;
+		this.CreateGrid(40)
+	}
+
+	CreateGrid(cellSize)
+	{
+		cellSize = int(cellSize);
+		if (cellSize == this.CellSize)
+		{
+			return;
+		}
+		this.CellSize = cellSize;
+		this.Notes = []
 
 		// initalise grid structure and state
-		for (var x=0; x<_w; x+=this.cellSize)
+		for (let x=0; x<this.GridWidth; x+=this.CellSize)
 		{
-			var notesColumn = [];
-			for (var y=0; y<_h; y+=this.cellSize)
+			let notesColumn = [];
+			for (let y=0; y<this.GridHeight; y+=this.CellSize)
 			{
 				let pos = createVector(x, y);
-				notesColumn.push(new Note(this.cellSize, pos));
+				notesColumn.push(new Note(this.CellSize, pos));
 			}
-			this.notes.push(notesColumn);
+			this.Notes.push(notesColumn);
 		}
 	}
 
 	/////////////////////////////////
-	run(img)
+	Run(img)
 	{
 		img.loadPixels();
-		this.findActiveNotes(img);
-		this.drawActiveNotes(img);
+		this.FindActiveNotes(img);
+		this.DrawActiveNotes(img);
 	}
 
 	/////////////////////////////////
-	drawActiveNotes(img)
+	DrawActiveNotes(img)
 	{
 		// draw active notes
 		fill(255);
 		noStroke();
-		for (var i=0;i<this.notes.length;i++)
+		for (let i=0;i<this.Notes.length;i++)
 		{
-			for (var j=0; j<this.notes[i].length; j++)
+			for (let j=0; j<this.Notes[i].length; j++)
 			{
-				this.notes[i][j].draw(img);
+				this.Notes[i][j].draw(img);
 			}
 		}
 	}
 
 	/////////////////////////////////
-	findActiveNotes(img)
+	FindActiveNotes(img)
 	{
-		for (var x = 0; x < img.width; x += 1)
+		for (let x = 0; x < img.width; x += 1)
 		{
-			for (var y = 0; y < img.height; y += 1)
+			for (let y = 0; y < img.height; y += 1)
 			{
-				var index = (x + (y * img.width)) * 4;
-				var state = img.pixels[index + 0];
+				let index = (x + (y * img.width)) * 4;
+				let state = img.pixels[index + 0];
 				if (state != 0)
 				{ // if pixel is not black (ie there is movement)
 					// find which note to activate
-					var screenX = map(x, 0, img.width, 0, this.gridWidth);
-					var screenY = map(y, 0, img.height, 0, this.gridHeight);
-					var i = int(screenX/this.cellSize);
-					var j = int(screenY/this.cellSize);
-					this.notes[i][j].setTriggered(state);
+					let screenX = map(x, 0, img.width, 0, this.GridWidth);
+					let screenY = map(y, 0, img.height, 0, this.GridHeight);
+					let i = int(screenX / this.CellSize);
+					let j = int(screenY / this.CellSize);
+					this.Notes[i][j].setTriggered(state);
 				}
 			}
 		}
 	}
 }
-
-
 
 class Note
 {
@@ -82,12 +90,12 @@ class Note
 	{
 		if (this.noteState > 0)
 		{
-			var alpha = this.noteState * 200;
-			var c1 = color(255, 0, 0, alpha);
-			var c2 = color(0, 255, 0, alpha);
-			var mix = lerpColor(c1, c2, map(this.pos.y, 0, height, 0, 1));
+			let alpha = this.noteState * 200;
+			let c1 = color(255, 0, 0, alpha);
+			let c2 = color(0, 255, 0, alpha);
+			let mix = lerpColor(c1, c2, map(this.pos.y, 0, height, 0, 1));
 			fill(mix);
-			var s = this.noteState;
+			let s = this.noteState;
 			ellipse(this.pos.x, this.pos.y, this.maxSize * s, this.maxSize * s);
 		}
 		this.noteState -= 0.05;

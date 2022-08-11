@@ -17,7 +17,7 @@ function setup()
 	video.hide();
 
 	grid = new Grid(640,480);
-    flow = new FlowCalculator(flowStep);
+	flow = new FlowCalculator(flowStep);
 
 	background(0);
 }
@@ -52,13 +52,15 @@ function draw()
 	if (typeof prevImg !== 'undefined')
 	{
 		let threshold = document.getElementById("thresholdSlider").value;
+		let cellSize = document.getElementById("cellSizeSlider").value;
+		grid.CreateGrid(cellSize);
 
 		diffImg = CalculateImgDelta(currImg, prevImg, threshold);
 
 		// resize diff image to full size to make it easier to debug
 		image(diffImg, 640, 0, video.width, video.height);
 
-		grid.run(diffImg);
+		grid.Run(diffImg);
 
 		flow.calculate(prevImg.pixels, currImg.pixels, currImg.width, currImg.height);
 		DrawFlow(scaleFactor, video.width)
