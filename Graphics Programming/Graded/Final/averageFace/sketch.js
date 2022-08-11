@@ -1,12 +1,13 @@
 var imgs = [];
-var avgImg;
-var numOfImages = 30;
+var OutputImg;
+var AvgImgCache;
+var NumOfImages = 30;
 var SelectedImg;
 
 //////////////////////////////////////////////////////////
 function preload()
 {
-	for (let i = 0; i < numOfImages; i++)
+	for (let i = 0; i < NumOfImages; i++)
 	{
 		imgs.push(loadImage("assets/"+i+".jpg"));
 	}
@@ -19,9 +20,14 @@ function setup()
 	createCanvas(imgs[0].width*2, imgs[0].height);
 	pixelDensity(1);
 
-	avgImg = createGraphics(imgs[0].width , imgs[0].height);
+	OutputImg = createGraphics(imgs[0].width , imgs[0].height);
+	AvgImgCache = createGraphics(imgs[0].width , imgs[0].height);
 
 	SelectRandomImg();
+
+	// create a cache of the Average pixel color of all the images
+	CalculateAvgImg();
+	AvgImgCache.loadPixels();
 }
 
 function SelectRandomImg()
@@ -29,6 +35,8 @@ function SelectRandomImg()
 	var selectedIndex = Math.trunc(random(0, imgs.length-1));
 
 	SelectedImg = imgs[selectedIndex];
+
+	SelectedImg.loadPixels();
 }
 
 
@@ -50,35 +58,63 @@ function draw()
 	background(125);
 	image(SelectedImg, 0, 0)
 
+
+	OutputImg.loadPixels();
+
+	let fade = mouseX / width;
+	fade = Math.max(Math.min(fade, 1), 0);
+
+	// fade between the AvgImgCache and the selected image
+	for (let x = 0; x < imgs[0].width; x++)
+	{
+		for (let y = 0; y < imgs[0].height; y++)
+		{
+			let avgColor = GetPixel(AvgImgCache, x, y);
+			let lerpedColor = LerpToSelectedImg(x, y, avgColor, fade);
+			SetPixel(OutputImg, x, y, lerpedColor);
+		}
+	}
+
+	OutputImg.updatePixels();
+	// display image
+	image(OutputImg, imgs[0].width, 0)
+
+	// we don't need to loop so save the performance
+	noLoop();
+}
+
+function LerpToSelectedImg(x, y, startingColor, amount)
+{
+	let selectedColour = GetPixel(SelectedImg, x, y);
+
+	let r = lerp(selectedColour.levels[0], startingColor.levels[0], amount);
+	let g = lerp(selectedColour.levels[1], startingColor.levels[1], amount);
+	let b = lerp(selectedColour.levels[2], startingColor.levels[2], amount);
+
+	return color(r, g, b, 255);
+}
+
+function CalculateAvgImg()
+{
 	// load pixels
 	for (let i = 0; i < imgs.length; i++)
 	{
 		imgs[i].loadPixels();
 	}
 
-	avgImg.loadPixels();
-	SelectedImg.loadPixels();
+	AvgImgCache.loadPixels();
 
-	let fade = mouseX / width;
-	// find avg
+
 	for (let x = 0; x < imgs[0].width; x++)
 	{
 		for (let y = 0; y < imgs[0].height; y++)
 		{
 			let avgColor = GetAvgColor(imgs, x, y);
-			let lerpedColor = LerpToSelectedImg(x, y, avgColor, fade);
-			SetPixel(avgImg, x, y, lerpedColor);
+			SetPixel(AvgImgCache, x, y, avgColor);
 		}
 	}
-
-	avgImg.updatePixels();
-	// display image
-	image(avgImg, imgs[0].width, 0)
-
-	// we don't need to loop so save the performance
-	noLoop();
+	AvgImgCache.updatePixels();
 }
-
 
 function GetAvgColor(imgs, x, y)
 {
@@ -100,18 +136,6 @@ function GetAvgColor(imgs, x, y)
 
 	return color(sumR, sumG, sumB, 255);
 }
-
-function LerpToSelectedImg(x, y, startingColor, amount)
-{
-	let selectedColour = GetPixel(SelectedImg, x, y);
-
-	let r = lerp(selectedColour.levels[0], startingColor.levels[0], amount);
-	let g = lerp(selectedColour.levels[1], startingColor.levels[1], amount);
-	let b = lerp(selectedColour.levels[2], startingColor.levels[2], amount);
-
-	return color(r, g, b, 255);
-}
-
 
 //faster function to get the color of pixels
 function GetPixel(img, x, y)
