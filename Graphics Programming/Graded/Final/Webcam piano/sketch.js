@@ -1,82 +1,84 @@
-var video;
-var prevImg;
-var diffImg;
-var currImg;
-var grid;
-var flip = true;
+var Video;
+var PrevImg;
+var DiffImg;
+var CurrImg;
 
-var flow;
-var flowStep = 4;
-var scaleFactor = 4;
-var particles;
+var NoteGrid;
+var OpticalFlow;
+var Particles;
+
+const FlowStep = 4;
+const ScaleFactor = 4;
+var ShouldFlipVideo = true;
+
 
 function setup()
 {
 	createCanvas(640 * 2, 480);
 	pixelDensity(1);
-	video = createCapture(VIDEO);
-	video.hide();
+	Video = createCapture(VIDEO);
+	Video.hide();
 
-	grid = new Grid(640,480);
-	flow = new FlowCalculator(flowStep);
-	particles = new Particles();
+	NoteGrid = new Grid(640,480);
+	OpticalFlow = new FlowCalculator(FlowStep);
+	Particles = new ParticleManger();
 
 	background(0);
 }
 
 function draw()
 {
-	currImg = createImage(video.width, video.height);
-	currImg.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
+	CurrImg = createImage(Video.width, Video.height);
+	CurrImg.copy(Video, 0, 0, Video.width, Video.height, 0, 0, Video.width, Video.height);
 
-	if (flip)
+	if (ShouldFlipVideo)
 	{
-		currImg = FlipImage(currImg);
+		CurrImg = FlipImage(CurrImg);
 	}
 
-	if (typeof currImg === 'undefined')
+	if (typeof CurrImg === 'undefined')
 	{
 		return;
 	}
 
 	// Draw current image at full scale
 	background(0);
-	image(currImg, 0, 0);
+	image(CurrImg, 0, 0);
 
 	// reduce the resolution of the image to speed up processing
-	currImg.resize(video.width / scaleFactor, video.height / scaleFactor);
+	CurrImg.resize(Video.width / ScaleFactor, Video.height / ScaleFactor);
 
 	// blur the current image to reduce the affect of the noise
-	currImg.filter(BLUR, 3);
+	CurrImg.filter(BLUR, 3);
 
 	// handle prev img being undefined
 	// this will only happen for the first frame
-	if (typeof prevImg !== 'undefined')
+	if (typeof PrevImg !== 'undefined')
 	{
 		let threshold = document.getElementById("thresholdSlider").value;
 		let cellSize = document.getElementById("cellSizeSlider").value;
-		grid.CreateGrid(cellSize);
+		NoteGrid.CreateGrid(cellSize);
 
-		diffImg = CalculateImgDelta(currImg, prevImg, threshold);
+		DiffImg = CalculateImgDelta(CurrImg, PrevImg, threshold);
 
 		// resize diff image to full size to make it easier to debug
-		image(diffImg, 640, 0, video.width, video.height);
+		image(DiffImg, 640, 0, Video.width, Video.height);
 
-		grid.Run(diffImg);
+		NoteGrid.Run(DiffImg);
 
-		flow.calculate(prevImg.pixels, currImg.pixels, currImg.width, currImg.height);
-		particles.Update();
-		DrawFlow(scaleFactor, video.width)
+		OpticalFlow.calculate(PrevImg.pixels, CurrImg.pixels, CurrImg.width, CurrImg.height);
+		Particles.Update();
+		DrawFlow(Video.width);
 	}
 
 	// copy current image into prevImg
-	prevImg = createImage(currImg.width, currImg.height);
-	prevImg.copy(currImg, 0, 0, currImg.width, currImg.height, 0, 0, currImg.width, currImg.height);
+	PrevImg = createImage(CurrImg.width, CurrImg.height);
+	PrevImg.copy(CurrImg, 0, 0, CurrImg.width, CurrImg.height, 0, 0, CurrImg.width, CurrImg.height);
 }
 
 function CalculateImgDelta(currImg, prevImg, threshold)
 {
-	// square the threshold so we can use the distSquared,
+	// square the threshold so we can use the DistSquared,
 	// this means the code can run faster
 	let thresholdSquared = threshold * threshold;
 
@@ -98,7 +100,7 @@ function CalculateImgDelta(currImg, prevImg, threshold)
 			var prevG = prevImg.pixels[index + 1];
 			var prevB = prevImg.pixels[index + 2];
 
-			var d = distSquared(currR, currG, currB, prevR, prevG, prevB);
+			var d = DistSquared(currR, currG, currB, prevR, prevG, prevB);
 
 			if (d < thresholdSquared)
 			{
@@ -120,20 +122,23 @@ function CalculateImgDelta(currImg, prevImg, threshold)
 	return deltaImg;
 }
 
-function DrawFlow(scale, xOffset)
+function DrawFlow(xOffset)
 {
 	let threshold = 5;
-	if (flow.flow && flow.flow.u != 0 && flow.flow.v != 0) {
-		for (var i=0; i<flow.flow.zones.length; i++){
-			zone = flow.flow.zones[i];
+	if (OpticalFlow.flow && OpticalFlow.flow.u != 0 && OpticalFlow.flow.v != 0)
+	{
+		for (var i=0; i<OpticalFlow.flow.zones.length; i++)
+		{
+			zone = OpticalFlow.flow.zones[i];
 
-			if (abs(zone.u)>threshold || abs(zone.v)>threshold){ // only if movement is significant
-				stroke(map(zone.u, -flowStep, +flowStep, 0, 255),
-					   map(zone.v, -flowStep, +flowStep, 0, 255), 128);
+			if (abs(zone.u)>threshold || abs(zone.v)>threshold)
+			{ // only if movement is significant
+				stroke(map(zone.u, -FlowStep, +FlowStep, 0, 255),
+					   map(zone.v, -FlowStep, +FlowStep, 0, 255), 128);
 
-				let x = zone.x*scale + xOffset;
-				let y = zone.y*scale;
-				line(x, y, x + zone.u*scale, y + zone.v*scale);
+				let x = zone.x*ScaleFactor + xOffset;
+				let y = zone.y*ScaleFactor;
+				line(x, y, x + zone.u*ScaleFactor, y + zone.v*ScaleFactor);
 			}
 		}
 	}
@@ -141,7 +146,7 @@ function DrawFlow(scale, xOffset)
 
 // faster method for calculating color similarity which does not calculate root.
 // Only needed if dist() runs slow
-function distSquared(x1, y1, z1, x2, y2, z2)
+function DistSquared(x1, y1, z1, x2, y2, z2)
 {
 	var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
 	return d;
@@ -171,4 +176,4 @@ function FlipImage(img)
 }
 
 
-document.getElementById("toggleFlip").onclick = function(){flip = !flip;};
+document.getElementById("toggleFlip").onclick = function(){ShouldFlipVideo = !ShouldFlipVideo;};

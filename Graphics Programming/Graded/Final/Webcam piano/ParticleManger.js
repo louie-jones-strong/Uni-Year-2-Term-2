@@ -1,6 +1,6 @@
 var ParticleImg;
 
-class Particles
+class ParticleManger
 {
 	constructor ()
 	{
@@ -26,14 +26,14 @@ class Particles
 			}
 		}
 
-		for (let i = 0; i < flow.Zones.length; i++)
+		for (let i = 0; i < OpticalFlow.Zones.length; i++)
 		{
-			const flowZone = flow.Zones[i];
+			const flowZone = OpticalFlow.Zones[i];
 			if (Math.abs(flowZone.u) < 5 && Math.abs(flowZone.v) < 5)
 			{
 				continue;
 			}
-			let  newParticle = new Particle(flowZone.x*scaleFactor, flowZone.y*scaleFactor, flowZone.u, flowZone.v)
+			let  newParticle = new Particle(flowZone.x*ScaleFactor, flowZone.y*ScaleFactor, flowZone.u, flowZone.v);
 			this.ParticleList.push(newParticle);
 			newParticle.Update();
 		}
@@ -45,7 +45,7 @@ class Particle
 {
 	constructor (posX, posY, speedX, speedY)
 	{
-		let posRange = flowStep * scaleFactor;
+		let posRange = FlowStep * ScaleFactor;
 		this.Pos = createVector(posX + random(-posRange, posRange), posY + random(-posRange, posRange));
 
 		const speedMultiplier = random(20, 30);
