@@ -1,3 +1,6 @@
+var NoteImg;
+
+
 class Grid
 {
 	/////////////////////////////////
@@ -5,7 +8,9 @@ class Grid
 	{
 		this.GridWidth = width;
 		this.GridHeight = height;
-		this.CreateGrid(40)
+		this.CreateGrid(40);
+
+		NoteImg = loadImage("assets/gridVfx.png")
 	}
 
 	CreateGrid(cellSize)
@@ -90,13 +95,16 @@ class Note
 	{
 		if (this.noteState > 0)
 		{
-			let alpha = this.noteState * 200;
+			let alpha = this.noteState * 50;
 			let c1 = color(255, 0, 0, alpha);
 			let c2 = color(0, 255, 0, alpha);
 			let mix = lerpColor(c1, c2, map(this.pos.y, 0, height, 0, 1));
 			fill(mix);
 			let s = this.noteState;
+
+			let size = this.maxSize * s;
 			ellipse(this.pos.x, this.pos.y, this.maxSize * s, this.maxSize * s);
+			image(NoteImg, this.pos.x - (size/2), this.pos.y - (size/2), size, size);
 		}
 		this.noteState -= 0.05;
 		this.noteState = constrain(this.noteState, 0, 1);

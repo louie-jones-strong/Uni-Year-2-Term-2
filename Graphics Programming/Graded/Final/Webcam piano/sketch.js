@@ -8,6 +8,7 @@ var flip = true;
 var flow;
 var flowStep = 4;
 var scaleFactor = 4;
+var particles;
 
 function setup()
 {
@@ -18,6 +19,7 @@ function setup()
 
 	grid = new Grid(640,480);
 	flow = new FlowCalculator(flowStep);
+	particles = new Particles();
 
 	background(0);
 }
@@ -63,6 +65,7 @@ function draw()
 		grid.Run(diffImg);
 
 		flow.calculate(prevImg.pixels, currImg.pixels, currImg.width, currImg.height);
+		particles.Update();
 		DrawFlow(scaleFactor, video.width)
 	}
 
@@ -133,10 +136,6 @@ function DrawFlow(scale, xOffset)
 				line(x, y, x + zone.u*scale, y + zone.v*scale);
 			}
 		}
-
-		strokeWeight(2);
-		stroke(255);
-		translate(width/2, height/2);
 	}
 }
 
