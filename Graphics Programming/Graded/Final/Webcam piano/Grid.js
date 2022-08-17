@@ -1,4 +1,5 @@
 var NoteImg;
+var MonoSynth;
 
 
 class Grid
@@ -11,6 +12,7 @@ class Grid
 		this.CreateGrid(40);
 
 		NoteImg = loadImage("assets/gridVfx.png")
+		MonoSynth = new p5.MonoSynth();
 	}
 
 	CreateGrid(cellSize)
@@ -54,7 +56,7 @@ class Grid
 		{
 			for (let j=0; j<this.Notes[i].length; j++)
 			{
-				this.Notes[i][j].draw(img);
+				this.Notes[i][j].Draw(img);
 			}
 		}
 	}
@@ -75,7 +77,7 @@ class Grid
 					let screenY = map(y, 0, img.height, 0, this.GridHeight);
 					let i = int(screenX / this.CellSize);
 					let j = int(screenY / this.CellSize);
-					this.Notes[i][j].setTriggered(state);
+					this.Notes[i][j].SetTriggered(state);
 				}
 			}
 		}
@@ -86,32 +88,55 @@ class Note
 {
 	constructor(cellSize, pos)
 	{
-		this.maxSize = cellSize;
-		this.pos = pos;
-		this.noteState = 0;
+		this.MaxSize = cellSize;
+		this.Pos = pos;
+		this.NoteState = 0;
 	}
 
-	draw(img)
+	Draw(img)
 	{
-		if (this.noteState > 0)
+		if (this.NoteState > 0)
 		{
-			let alpha = this.noteState * 50;
-			let c1 = color(255, 0, 0, alpha);
-			let c2 = color(0, 255, 0, alpha);
-			let mix = lerpColor(c1, c2, map(this.pos.y, 0, height, 0, 1));
+			let alpha = this.NoteState * 50;
+			let c1 = color(0, 255, 0, alpha);
+			let c2 = color(255, 0, 0, alpha);
+			let mix = lerpColor(c1, c2, map(this.Pos.y, 0, height, 0, 1));
 			fill(mix);
-			let s = this.noteState;
 
-			let size = this.maxSize * s;
-			ellipse(this.pos.x, this.pos.y, this.maxSize * s, this.maxSize * s);
-			image(NoteImg, this.pos.x - (size/2), this.pos.y - (size/2), size, size);
+			let size = this.MaxSize * this.NoteState;
+			ellipse(this.Pos.x, this.Pos.y, size, size);
+			image(NoteImg, this.Pos.x - (size/2), this.Pos.y - (size/2), size, size);
 		}
-		this.noteState -= 0.05;
-		this.noteState = constrain(this.noteState, 0, 1);
+		this.NoteState -= 0.05;
+		this.NoteState = constrain(this.NoteState, 0, 1);
 	}
 
-	setTriggered(state)
+	SetTriggered(state)
 	{
-		this.noteState = 1;
+		if (this.NoteState < 0.5)
+		{
+			this.PlayNote();
+		}
+
+		this.NoteState = 1;
+	}
+
+	PlayNote()
+	{
+		let normX = (this.Pos.x + this.MaxSize/2) / NoteGrid.GridWidth;
+		let normY = (this.Pos.y + this.MaxSize/2) / NoteGrid.GridHeight;
+		// let octave = Math.round(12 * normY).toString();
+		// let note = random(['A', 'B', 'C', 'D', 'E', 'F', 'G'])
+		// let key = note + octave;
+		let hertz  = normX * 1500;
+
+		// note velocity (volume, from 0 to 1)
+		let velocity = 1 - normY;
+		// time from now (in seconds)
+		let time = 0;
+		// note duration (in seconds)
+		let dur = 1/6;
+
+		MonoSynth.play(hertz, velocity, time, dur);
 	}
 }
