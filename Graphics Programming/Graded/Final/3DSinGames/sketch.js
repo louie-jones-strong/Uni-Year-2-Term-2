@@ -1,17 +1,17 @@
-GridSize = 800;
-BoxSize = 50;
-LengthMin = 100;
-LengthMax = 300;
+const GridSize = 800;
+var BoxSize = 50;
+const LengthMin = 100;
+const LengthMax = 300;
 
-NumberOfConfetti = 200;
+const NumberOfConfetti = 200;
 
-ConfettiPieces = []
+var ConfettiPieces = []
 
-ShowGrid = true;
-ShowConfetti = true;
+var ShowGrid = true;
+var ShowConfetti = true;
 
-CameraElapsedSecs = 0;
-WaveElapsedSecs = 0;
+var CameraElapsedSecs = 0;
+var WaveElapsedSecs = 0;
 
 function setup()
 {

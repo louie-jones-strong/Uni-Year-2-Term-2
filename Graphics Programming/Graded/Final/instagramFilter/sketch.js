@@ -1,6 +1,6 @@
 // Image of Husky Creative commons from Wikipedia:
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
-var imgIn;
+var ImgIn;
 
 var UseInvert = false;
 var UseSharpen = false;
@@ -14,19 +14,19 @@ var UseBorder = true;
 /////////////////////////////////////////////////////////////////
 function preload()
 {
-	imgIn = loadImage("assets/husky.jpg");
+	ImgIn = loadImage("assets/husky.jpg");
 }
 /////////////////////////////////////////////////////////////////
 function setup()
 {
-	createCanvas((imgIn.width * 2), imgIn.height);
+	createCanvas((ImgIn.width * 2), ImgIn.height);
 }
 /////////////////////////////////////////////////////////////////
 function draw()
 {
 	background(125);
-	image(imgIn, 0, 0);
-	image(earlyBirdFilter(imgIn), imgIn.width, 0);
+	image(ImgIn, 0, 0);
+	image(earlyBirdFilter(ImgIn), ImgIn.width, 0);
 	noLoop();
 }
 /////////////////////////////////////////////////////////////////
@@ -330,8 +330,6 @@ function borderFilter(img)
 
 	return buffer;
 }
-
-
 
 document.getElementById("toggleInvert").onclick = function(){UseInvert = !UseInvert; loop();};
 document.getElementById("toggleSharpen").onclick = function(){UseSharpen = !UseSharpen; loop();};

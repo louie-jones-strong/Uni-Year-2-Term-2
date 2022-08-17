@@ -1,7 +1,7 @@
 var imgs = [];
 var OutputImg;
 var AvgImgCache;
-var NumOfImages = 30;
+const NumOfImages = 30;
 var SelectedImg;
 
 //////////////////////////////////////////////////////////
