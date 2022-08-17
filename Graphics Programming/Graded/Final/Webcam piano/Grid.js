@@ -123,12 +123,12 @@ class Note
 
 	PlayNote()
 	{
-		let normX = (this.Pos.x + this.MaxSize/2) / NoteGrid.GridWidth;
-		let normY = (this.Pos.y + this.MaxSize/2) / NoteGrid.GridHeight;
+		let normX = this.Pos.x / NoteGrid.GridWidth;
+		let normY = this.Pos.y / NoteGrid.GridHeight;
 		// let octave = Math.round(12 * normY).toString();
 		// let note = random(['A', 'B', 'C', 'D', 'E', 'F', 'G'])
 		// let key = note + octave;
-		let hertz  = normX * 1500;
+		let hertz = lerp(20, 2000, normX);
 
 		// note velocity (volume, from 0 to 1)
 		let velocity = 1 - normY;
