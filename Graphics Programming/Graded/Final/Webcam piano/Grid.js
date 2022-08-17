@@ -88,7 +88,7 @@ class Note
 {
 	constructor(cellSize, pos)
 	{
-		this.MaxSize = cellSize;
+		this.MaxSize = cellSize * 2;
 		this.Pos = pos;
 		this.NoteState = 0;
 	}
@@ -103,7 +103,8 @@ class Note
 			let mix = lerpColor(c1, c2, map(this.Pos.y, 0, height, 0, 1));
 			fill(mix);
 
-			let size = this.MaxSize * this.NoteState;
+			// let size = this.MaxSize * this.NoteState;
+			let size = map(this.NoteState, 0, 1, this.MaxSize, 1);
 			ellipse(this.Pos.x, this.Pos.y, size, size);
 			image(NoteImg, this.Pos.x - (size/2), this.Pos.y - (size/2), size, size);
 		}
