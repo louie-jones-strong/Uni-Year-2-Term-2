@@ -114,10 +114,8 @@ class Note
 
 	SetTriggered(state)
 	{
-		if (this.NoteState < 0.5)
-		{
-			this.PlayNote();
-		}
+		this.PlayNote();
+
 
 		this.NoteState = 1;
 	}
