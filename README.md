@@ -3,12 +3,12 @@
 # Module Links
 ## Graphics Programming
 ### Mid Terms:
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/AngryBirds/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/AsteroidGame/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/NoisyGrid/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/SolarSystem/
+- [Angry Birds](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/AngryBirds/)
+- [Asteroid Game](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/AsteroidGame/)
+- [Noisy Grid](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/NoisyGrid/)
+- [Solar System](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/MidTerm/SolarSystem/)
 ### Finals:
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/3DSinGames/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/AverageFace/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/InstagramFilter/
-- https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/WebcamPiano/
+- [3D Sin Games](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/3DSinGames/)
+- [Average Face](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/AverageFace/)
+- [Instagram Filter](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/InstagramFilter/)
+- [Webcam Piano](https://louie-jones-strong.github.io/Uni-Year-2-Term-2/GraphicsProgramming/Graded/Final/WebcamPiano/)
